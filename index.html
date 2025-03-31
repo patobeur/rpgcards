@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RPG-CARDS</title>
+</head>
+
+<body>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: sans-serif;
+      text-align: center;
+    }
+
+    #playerCards {
+      display: flex;
+      justify-content: center;
+    }
+
+    .red {
+      color: red;
+    }
+
+    .card {
+      width: 75px;
+      height: 120px;
+      border: 1px solid rgb(0, 0, 0);
+      /* display: inline-block; */
+      display: flex;
+      margin: 3px;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      /* line-height: 80px; */
+      cursor: pointer;
+      position: relative;
+      border-radius: 9px;
+      background-color: beige;
+    }
+
+    .card.selected {
+      border: 2px solid rgb(38, 172, 11);
+      box-shadow: 5px 10px 5px rgba(0, 0, 0, 0.24);
+      transform: translateY(-10px);
+    }
+
+    .card.facedown {
+      background-color: #888;
+      color: #fff;
+    }
+
+    .card .value {
+      position: absolute;
+      top: 5px;
+      left: 8px;
+      font-size: 2rem;
+      user-select: none;
+    }
+
+    .card .category {
+      position: absolute;
+      bottom: 5px;
+      right: 8px;
+      font-size: 2rem;
+      user-select: none;
+    }
+
+    #buttons {
+      margin-top: 20px;
+    }
+
+    #score {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    #deck,
+    #discardPile {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+
+    #game-messages {
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+
+    /* enemys */
+    #enemy {
+      position: relative;
+      border: 1px solid #ccc;
+      display: flex;
+      justify-content: center;
+
+      #enemy-board {
+        position: relative;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 50vh;
+        aspect-ratio: 16/9;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+
+        .enemy-data {
+          padding: 2px;
+          margin: 2px;
+          background-color: #ffffffe3;
+          border-radius: 7px;
+        }
+
+        #enemy-name {
+          position: absolute;
+          top: 5px;
+          left: 5px;
+        }
+
+        #enemy-hp {
+          position: absolute;
+          top: 5px;
+          right: 5px;
+        }
+
+        #enemy-round {
+          position: absolute;
+          top: 5px;
+          left: 50%;
+          transform: translate(-50%);
+        }
+
+        .enemy-tip {
+          padding: 2px;
+          margin: 2px;
+          width: 80%;
+          background-color: #ffffffd8;
+          border-radius: 7px;
+          font-size: 1.5rem;
+
+          &.hide {
+            display: none;
+          }
+        }
+
+
+        #cursor {
+          position: absolute;
+          bottom: 0;
+          display: flex;
+          justify-content: center;
+          height: 30px;
+          gap: 5px;
+          margin-bottom: 5px;
+
+          &.hide {
+            display: none;
+          }
+
+          .ico {
+            height: 32px;
+            background-color: #fff;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1px 8px;
+          }
+        }
+      }
+    }
+  </style>
+  <div id="score"></div>
+  <div id="enemy">
+    <div id="enemy-board">
+      <div class="enemy-data" id="enemy-name"></div>
+      <div class="enemy-data" id="enemy-hp"></div>
+      <div class="enemy-data" id="enemy-round"></div>
+
+      <div class="enemy-tip hide" id="enemy-description"></div>
+      <div class="enemy-tip hide" id="enemy-style"></div>
+      <div class="enemy-tip hide" id="enemy-aura"></div>
+      <div class="enemy-tip hide" id="enemy-faiblesse"></div>
+
+      <div id="cursor">
+        <div class="ico" id="ico-description">Description</div>
+        <div class="ico" id="ico-style">Style</div>
+        <div class="ico" id="ico-aura">Aura</div>
+        <div class="ico" id="ico-faiblesse">Faiblesse</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <button id="dealButton">Distribuer</button> -->
+
+  <div id="playerCards"></div>
+
+  <div id="buttons" style="display: none;">
+    <button id="attackButton">Attaquer</button>
+    <button id="discardButton">Défausser</button>
+  </div>
+
+  <div id="deck">Deck: <span id="deckCount"></span></div>
+  <div id="discardPile">Discard: <span id="discardCount"></span></div>
+
+  <div id="game-messages"></div>
+
+
+  <script src="core/cartes.js"></script>
+  <script src="core/front.js"></script>
+  <script src="core/events.js"></script>
+  <script src="core/main.js"></script>
+</body>
+</body>
+
+</html>
