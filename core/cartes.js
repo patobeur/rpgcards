@@ -151,6 +151,7 @@ const cartes = {
 
   },
   discardCards:function(){
+    console.log('discardCards')
     if (this.selectedCards.length === 0) return;
   
     const newCards = [];

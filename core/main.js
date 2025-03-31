@@ -21,6 +21,9 @@
 
 
     cursor.classList.remove('hide')
+    enemyIcoStyle.classList.remove('hide')
+    enemyIcoAura.classList.remove('hide')
+    enemyIcoFaiblesse.classList.remove('hide')
 
     enemyz.updateEnemyHP();
 
@@ -33,11 +36,15 @@
 
     enemyNameElement.textContent = rest.name;
     enemyDescriptionElement.textContent = rest.description;
+
     enemyStyleElement.textContent = "";
     enemyAuraElement.textContent = "";
     enemyFaiblesseElement.textContent = "";
     enemyRoundElement.textContent = "";
 
+    enemyIcoStyle.classList.add('hide')
+    enemyIcoAura.classList.add('hide')
+    enemyIcoFaiblesse.classList.add('hide')
 
     restImage = rest.picture;
     // cursor.classList.add('hide')
@@ -139,7 +146,7 @@
     // resetGame();
     nextStep();
     // dealButton.addEventListener("click", dealCards);
-    discardButton.addEventListener("click", cartes.discardCards());
+    discardButton.addEventListener("click", function(){cartes.discardCards()});
     attackButton.addEventListener("click", attack);
   }
 

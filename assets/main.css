@@ -1,22 +1,22 @@
 * {
     box-sizing: border-box;
-}
+  }
 
-body {
+  body {
     font-family: sans-serif;
     text-align: center;
-}
+  }
 
-#playerCards {
+  #playerCards {
     display: flex;
     justify-content: center;
-}
+  }
 
-.red {
+  .red {
     color: red;
-}
+  }
 
-.card {
+  .card {
     width: 75px;
     height: 120px;
     border: 1px solid rgb(0, 0, 0);
@@ -31,139 +31,141 @@ body {
     position: relative;
     border-radius: 9px;
     background-color: beige;
-}
+  }
 
-.card.selected {
+  .card.selected {
     border: 2px solid rgb(38, 172, 11);
     box-shadow: 5px 10px 5px rgba(0, 0, 0, 0.24);
     transform: translateY(-10px);
-}
+  }
 
-.card.facedown {
+  .card.facedown {
     background-color: #888;
     color: #fff;
-}
+  }
 
-.card .value {
+  .card .value {
     position: absolute;
     top: 5px;
     left: 8px;
     font-size: 2rem;
     user-select: none;
-}
+  }
 
-.card .category {
+  .card .category {
     position: absolute;
     bottom: 5px;
     right: 8px;
     font-size: 2rem;
     user-select: none;
-}
+  }
 
-#buttons {
+  #buttons {
     margin-top: 20px;
-}
+  }
 
-#score {
+  #score {
     font-weight: bold;
     margin-top: 10px;
-}
+  }
 
-#deck,
-#discardPile {
+  #deck,
+  #discardPile {
     display: inline-block;
     margin: 10px;
     padding: 10px;
     border: 1px solid #ccc;
-}
+  }
 
-#game-messages {
+  #game-messages {
     margin-top: 10px;
     padding: 10px;
     border: 1px solid #ccc;
-}
+  }
 
-/* enemys */
-#enemy {
+  /* enemys */
+  #enemy {
     position: relative;
     border: 1px solid #ccc;
     display: flex;
     justify-content: center;
 
     #enemy-board {
-        position: relative;
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-        height: 50vh;
-        aspect-ratio: 16/9;
+      position: relative;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      height: 50vh;
+      aspect-ratio: 16/9;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+
+      .enemy-data {
+        padding: 2px;
+        margin: 2px;
+        background-color: #ffffffe3;
+        border-radius: 7px;
+      }
+
+      #enemy-name {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+      }
+
+      #enemy-hp {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+      }
+
+      #enemy-round {
+        position: absolute;
+        top: 5px;
+        left: 50%;
+        transform: translate(-50%);
+      }
+
+      .enemy-tip {
+        padding: 2px;
+        margin: 2px;
+        width: 80%;
+        background-color: #ffffffd8;
+        border-radius: 7px;
+        font-size: 1.5rem;
+
+        &.hide {
+          display: none;
+        }
+      }
+      #cursor {
+        position: absolute;
+        bottom: 0;
         display: flex;
-        flex-direction: column;
         justify-content: center;
-        align-items: center;
+        height: 30px;
+        gap: 5px;
+        margin-bottom: 5px;
 
-
-        .enemy-data {
-            padding: 2px;
-            margin: 2px;
-            background-color: #ffffffe3;
-            border-radius: 7px;
+        &.hide {
+          display: none;
         }
 
-        #enemy-name {
-            position: absolute;
-            top: 5px;
-            left: 5px;
+        .ico {
+          height: 32px;
+          background-color: #fff;
+          border-radius: 9px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 1px 8px;
+          &.hide {
+            display: none;
         }
-
-        #enemy-hp {
-            position: absolute;
-            top: 5px;
-            right: 5px;
         }
-
-        #enemy-round {
-            position: absolute;
-            top: 5px;
-            left: 50%;
-            transform: translate(-50%);
-        }
-
-        .enemy-tip {
-            padding: 2px;
-            margin: 2px;
-            width: 80%;
-            background-color: #ffffffd8;
-            border-radius: 7px;
-            font-size: 1.5rem;
-
-            &.hide {
-                display: none;
-            }
-        }
-
-        #cursor {
-            position: absolute;
-            bottom: 0;
-            display: flex;
-            justify-content: center;
-            height: 30px;
-            gap: 5px;
-            margin-bottom: 5px;
-
-            &.hide {
-                display: none;
-            }
-
-            .ico {
-                height: 32px;
-                background-color: #fff;
-                border-radius: 9px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                padding: 1px 8px;
-            }
-        }
+      }
     }
-}
+  }
