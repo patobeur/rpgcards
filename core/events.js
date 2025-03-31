@@ -1,19 +1,19 @@
   // let imageFolder = "png/";
-  let imageFolder = "webp/";
+  let imageFolder = "assets/webp/";
   let imageExt = ".webp";
   let listeDesEvenements = [
     {
       rest: {
         hp: [5, 20], // points de vie récupéres
-        name: 'vous vous-reposez dans un coin tranquille !',
-        description: "un lieu agréable",
-        picture: 'rest_0.webp'
+        name: "L'aventure commence dans une foret paisible",
+        description: "Un lieu agréable",
+        picture: 'repos_paisible.webp'
       }
     },
     {fight:{
       hp:130,
       name: 'Ursule, le Minotaure',
-      picture: 'opp_0.webp',
+      picture: 'ursuleleminotaure.webp',
       description: "Ancien gardien d’un labyrinthe oublié, Ursule erre désormais sans maître ni raison. Mais son instinct frappe toujours juste.",
       style: "Il charge soudainement, brisant toute stratégie en un souffle. Sa rage est ancienne, brute et sauvage.",
       faiblesse: "Les illusions ou les attaques à distance le rendent confus, le forçant à ralentir.",
@@ -25,7 +25,7 @@
     {fight:{
       hp:110,
       name: 'Les Gombis Zobelins',
-      picture: 'opp_1.webp',
+      picture: 'lesgombiszobelins.webp',
       description: "Ils étaient déjà bêtes vivants. Morts, ils sont juste... plus nombreux. Et tout aussi imprévisibles.",
       style: "Ils attaquent en désordre, parfois en groupe, parfois un seul. Certains tombent tout seuls. Mais d’autres mordent très fort.",
       faiblesse: "La lumière vive et les bruits soudains les désorientent, les faisant trébucher les uns sur les autres.",
