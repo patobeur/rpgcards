@@ -13,6 +13,6 @@ const player = {
       console.log('reset player')
     },
     refreshScoreDiv:function(){
-      scoreDiv.textContent = `Score: ${this.score} | Coups: ${this.turns} | HP: ${this.hp} | Round: ${this.round}`;
+      scoreDiv.textContent = `Score: ${this.score} | Turns: ${this.turns} | Step: ${this.currentStep} | HP: ${this.hp} | Round: ${this.round}`;
     }
   }

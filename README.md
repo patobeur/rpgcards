@@ -1,12 +1,12 @@
-# 🎮 RPG-CARDS
+#  RPG-CARDS
 
-## ⚙️ Objectif du projet
+##  Objectif du projet
 
 **RPG-CARDS** est un **jeu de cartes tactique** au tour par tour mêlant **jeu de rôle (RPG)** et **deck-building**. Le joueur affronte une série d’ennemis à l’aide de cartes aux effets variés (attaque, défense, soins, buffs...), avec une interface interactive et des mécaniques de stratégie simples mais efficaces.
 
 ---
 
-## 🧩 Structure générale
+##  Structure générale
 
 ### `index.html`
 
@@ -23,7 +23,7 @@ Structure principale de l’interface :
 
 ---
 
-## 📁 Scripts JavaScript
+##  Scripts JavaScript
 
 ### Modules inclus :
 
@@ -39,9 +39,9 @@ Structure principale de l’interface :
 
 ---
 
-## 📦 Détails des fonctionnalités
+##  Détails des fonctionnalités
 
-### 🎴 `cartes.js`
+###  `cartes.js`
 
 - Définit la structure des cartes.
 - Chaque carte possède :
@@ -50,7 +50,7 @@ Structure principale de l’interface :
   - des **valeurs** numériques
   - un **style**, une **aura**, ou des conditions spéciales
 
-### 🧑‍🎤 `player.js`
+###  `player.js`
 
 Ce fichier contient un **objet `player`** qui représente l’état du joueur au fil du jeu. Il ne gère **ni le deck**, **ni la main**, mais uniquement les **statistiques générales** :
 
@@ -65,7 +65,7 @@ Ce fichier contient un **objet `player`** qui représente l’état du joueur au
   - `reset()` : réinitialise toutes les valeurs du joueur (score, HP, round, etc.)
   - `refreshScoreDiv()` : met à jour dynamiquement l’affichage des statistiques du joueur (`#score`)
 
-### 👾 `enemys.js`
+###  `enemys.js`
 
 Ce fichier contient un **objet `enemys`**, responsable de la gestion de l’ennemi actuel :
 
@@ -79,7 +79,7 @@ Ce fichier contient un **objet `enemys`**, responsable de la gestion de l’enne
   - `updateEnemyHP()` : met à jour dynamiquement les PV affichés
   - `displayInfo()` : remplit toutes les zones d’information sur l’ennemi dans l’interface (`name`, `description`, `style`, `aura`, `faiblesse`, image, etc.)
 
-### 💡 `front.js`
+###  `front.js`
 
 - Affiche dynamiquement :
   - les cartes du joueur
@@ -87,14 +87,14 @@ Ce fichier contient un **objet `enemys`**, responsable de la gestion de l’enne
   - les compteurs de deck et défausse
 - Révèle progressivement les **caractéristiques cachées** de l’ennemi (via clic sur des icônes)
 
-### 🎮 `events.js`
+###  `events.js`
 
 - Gère les **interactions utilisateur** :
   - liste des étapes de l'aventure
   - liste des objets disponibles pendant l'aventure
   - toutes les infos sur les ennemies, les repos, les arrets au marchand, les arrets au marchand,
 
-### 🧠 `main.js`
+###  `main.js`
 
 - Contrôle le **déroulement global du jeu** :
   - Initialisation de la partie
@@ -104,15 +104,15 @@ Ce fichier contient un **objet `enemys`**, responsable de la gestion de l’enne
 
 ---
 
-## ✨ Fonctionnalités clés
+##  Fonctionnalités clés
 
-- ⚔️ **Combats contre des ennemis uniques**, chacun ayant :
+-  **Combats contre des ennemis uniques**, chacun ayant :
   - des **caractéristiques** (aura, faiblesse, style…)
   - une **progression par round**
-- 🃏 **Système de deck** :
+-  **Système de deck** :
   - des combinaisons de cartes avec effets offensifs, défensifs ou contextuels
   - interaction avec les styles/faiblesses ennemis pour infliger plus de dégâts ou moins :/
-- 🔁 **Tour par tour** : le joueur joue une fois par tour.
-- 🔄 Possibilité de **défausser jusqu'à 5 cartes** pour la remplacer.
-- 🎯 **Stratégie** basée sur la combinaison carte/style/faiblesse.
-- 📊 Interface évolutive, feedback en direct, système de messages.
+-  **Tour par tour** : le joueur joue une fois par tour.
+-  Possibilité de **défausser jusqu'à 5 cartes** pour la remplacer.
+-  **Stratégie** basée sur la combinaison carte/style/faiblesse.
+-  Interface évolutive, feedback en direct, système de messages.

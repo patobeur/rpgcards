@@ -34,39 +34,59 @@
     addMessage(`${enemys.currentEnemy.name}`);
   }
 
-  function startRest(rest) {
+  function displayStepInfo(step) {
 
-    enemyNameElement.textContent = rest.name;
-    enemyDescriptionElement.textContent = rest.description;
-    if (rest.style) {
-      enemyStyleElement.textContent = rest.style
+    enemyNameElement.textContent = step.name;
+    enemyDescriptionElement.textContent = step.description;
+    if (step.style) {
+      enemyStyleElement.textContent = step.style;
+      enemyIcoStyle.classList.remove('hide')
     }
     else {
-      enemyStyleElement.textContent = ''
+      enemyStyleElement.textContent = '';
       enemyIcoStyle.classList.add('hide')
     }
-    if (rest.aura) {
-      enemyAuraElement.textContent = rest.aura
+    if (step.aura) {
+      enemyAuraElement.textContent = step.aura;
+      enemyIcoAura.classList.remove('hide')
     }
     else {
       enemyAuraElement.textContent = ''
-      enemyIcoStyle.classList.add('hide')
+      enemyIcoAura.classList.add('hide')
     }
-    enemyAuraElement.textContent = "";
-    enemyFaiblesseElement.textContent = "";
-    enemyRoundElement.textContent = "";
 
-    enemyIcoAura.classList.add('hide')
-    enemyIcoFaiblesse.classList.add('hide')
+    if (step.faiblesse) {
+      enemyFaiblesseElement.textContent = step.faiblesse
+      enemyIcoFaiblesse.classList.remove('hide')
+    }
+    else {
+      enemyFaiblesseElement.textContent = ''
+      enemyIcoFaiblesse.classList.add('hide')
+    }
+    if (step.round) {
+      enemyRoundElement.classList.remove('hide');
+    }
+    else {
+      enemyRoundElement.textContent = "";
+      enemyRoundElement.classList.add('hide');
+    }
 
-    restImage = rest.picture;
+  }
+
+  function startRest(step) {
+
+    enemyNameElement.textContent = step.name;
+    enemyDescriptionElement.textContent = step.description;
+    displayStepInfo(step)
+
+
     // cursor.classList.add('hide')
     buttonsDiv.style.display = "none";
 
-    addMessage(rest.name);
-    if (rest.hp && rest.hp[0] && rest.hp[1]) {
-      let max = rest.hp[1]
-      let min = rest.hp[0]
+    addMessage(step.name);
+    if (step.hp && step.hp[0] && step.hp[1]) {
+      let max = step.hp[1]
+      let min = step.hp[0]
       const hpGain = Math.floor(Math.random() * (max - min + 1)) + min;
       player.hp += hpGain;
 
@@ -76,7 +96,7 @@
     }
     player.refreshScoreDiv();
 
-    enemyImageBoard.style.backgroundImage = "url('" + imageFolder + restImage + "')";
+    enemyImageBoard.style.backgroundImage = "url('" + imageFolder + step.picture + "')";
 
     const nextButton = document.createElement("button");
     nextButton.textContent = "Suivant";
@@ -88,8 +108,9 @@
   }
 
 
-  function startEncounter(encounter) {
+  function startEncounter(step) {
 
+    displayStepInfo(step)
     // {encounter:{
     //   name: 'Arkan, le Marchand Errant',
     //   picture: 'arkanlemarchand.webp',
@@ -103,26 +124,14 @@
     //   ambiance: "Chaleureux & louche à la fois.",
     //   effet: "Permet d’acheter 1 objet aléatoire pour 3 pièces d’or."
     // }},
-    enemyNameElement.textContent = encounter.name;
-    enemyDescriptionElement.textContent = encounter.description;
 
-    enemyStyleElement.textContent = "";
-    enemyAuraElement.textContent = "";
-    enemyFaiblesseElement.textContent = "";
-    enemyRoundElement.textContent = "";
-
-    enemyIcoStyle.classList.add('hide')
-    enemyIcoAura.classList.add('hide')
-    enemyIcoFaiblesse.classList.add('hide')
-
-    encounterImage = encounter.picture;
     // cursor.classList.add('hide')
     buttonsDiv.style.display = "none";
 
-    addMessage(encounter.name);
-    if (encounter.hp && encounter.hp[0] && encounter.hp[1]) {
-      let max = encounter.hp[1]
-      let min = encounter.hp[0]
+    addMessage(step.name);
+    if (step.hp && step.hp[0] && step.hp[1]) {
+      let max = step.hp[1]
+      let min = step.hp[0]
       const hpGain = Math.floor(Math.random() * (max - min + 1)) + min;
       player.hp += hpGain;
 
@@ -132,7 +141,7 @@
     }
     player.refreshScoreDiv();
 
-    enemyImageBoard.style.backgroundImage = "url('" + imageFolder + encounterImage + "')";
+    enemyImageBoard.style.backgroundImage = "url('" + imageFolder + step.picture + "')";
 
     const nextButton = document.createElement("button");
     nextButton.textContent = "Suivant";
