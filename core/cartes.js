@@ -1,48 +1,5 @@
-const enemyz = {
-  currentEnemy:{},
-  currentRound:0,
-  reset:function(){
-    this.currentEnemy={};
-    this.currentRound=0;
-    console.log('reset opponent')
-  },
-  updateEnemyHP:function(){
-    enemyHPElement.textContent = `HP: ${this.currentEnemy.hp}`;
-  },
-  set:function(fight){
-    this.currentEnemy = fight
-    this.currentRound=0;
-    console.table(fight)
-  },
-  displayInfo:function(){
-    enemyNameElement.textContent = this.currentEnemy.name;
-    enemyDescriptionElement.textContent = "Description: "+ this.currentEnemy.description;
-    enemyStyleElement.textContent = "Style: "+ this.currentEnemy.style;
-    enemyAuraElement.textContent = "Aura: "+ this.currentEnemy.aura;
-    enemyFaiblesseElement.textContent = "Faiblesse: "+ this.currentEnemy.faiblesse;
-    enemyRoundElement.textContent = "Attaques par round: " +this.currentEnemy.round;
-    enemyImageBoard.style.backgroundImage = "url('"+imageFolder + this.currentEnemy.picture+"')";
-    // enemyImageElement.alt = enemyName;
-  }
-}
-const player = {
-  score: 0,
-  currentStep: 0,
-  hp: 100,
-  turns: 0,
-  round: 0,
-  reset:function(){
-    this.score=0;
-    this.currentStep=0;
-    this.hp=100;
-    this.round=0;
-    this.turns=0;
-    console.log('reset player')
-  },
-  refreshScoreDiv:function(){
-    scoreDiv.textContent = `Score: ${this.score} | Coups: ${this.turns} | HP: ${this.hp} | Round: ${this.round}`;
-  }
-}
+
+
 const cartes = {
   emoji: ["♥", "♦", "♣", "♠"],
   suits: [0, 1, 2, 3],
