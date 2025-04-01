@@ -29,7 +29,7 @@ Structure principale de l’interface :
 
 - **`cartes.js`** : définit les **types de cartes** disponibles (effets, styles, caractéristiques générales).
 - **`player.js`** : contient les **cartes du joueur**, sa main, le deck et la pile de défausse.
-- **`enemys.js`** : liste les **ennemis à affronter**, avec leurs caractéristiques (nom, HP, style, aura, faiblesse…).
+- **`enemys.js`** : traitement de  l **ennemi à affronter**, avec leurs caractéristiques (nom, HP, style, aura, faiblesse…).
 - **`front.js`** : gère **l’affichage dynamique du jeu**, met à jour le DOM en fonction des actions.
 - **`events.js`** : capture les **événements utilisateur** (clics sur cartes, boutons, éléments ennemis).
 - **`main.js`** : gère la **logique centrale** du jeu :
@@ -46,9 +46,9 @@ Structure principale de l’interface :
 - Définit la structure des cartes.
 - Chaque carte possède :
   - un **nom**
-  - un **type d’effet** (attaque, défense, soin…)
+  - un **type d’effet** (attaque, défense, soin…) (bientot)
   - des **valeurs** numériques
-  - un **style**, une **aura**, ou des conditions spéciales
+  - un **style**, une **aura**, ou des conditions spéciales (bientot)
 
 ###  `player.js`
 
@@ -67,7 +67,7 @@ Ce fichier contient un **objet `player`** qui représente l’état du joueur au
 
 ###  `enemys.js`
 
-Ce fichier contient un **objet `enemys`**, responsable de la gestion de l’ennemi actuel :
+Ce fichier contient un **objet `currentEnemy`**, responsable de la gestion de l’ennemi actuel :
 
 - **Propriétés** :
   - `currentEnemy` : objet représentant l’ennemi en cours (avec `name`, `hp`, `description`, `style`, etc.)
@@ -89,10 +89,10 @@ Ce fichier contient un **objet `enemys`**, responsable de la gestion de l’enne
 
 ###  `events.js`
 
-- Gère les **interactions utilisateur** :
+- Stock les **étapes de l'aventure** :
   - liste des étapes de l'aventure
   - liste des objets disponibles pendant l'aventure
-  - toutes les infos sur les ennemies, les repos, les arrets au marchand, les arrets au marchand,
+  - toutes les infos sur les ennemies, les repos, les arrets au marchand, les arrets aux pauses,
 
 ###  `main.js`
 
@@ -104,7 +104,7 @@ Ce fichier contient un **objet `enemys`**, responsable de la gestion de l’enne
 
 ---
 
-##  Fonctionnalités clés
+##  Fonctionnalités clés (à venir)
 
 -  **Combats contre des ennemis uniques**, chacun ayant :
   - des **caractéristiques** (aura, faiblesse, style…)
@@ -116,3 +116,4 @@ Ce fichier contient un **objet `enemys`**, responsable de la gestion de l’enne
 -  Possibilité de **défausser jusqu'à 5 cartes** pour la remplacer.
 -  **Stratégie** basée sur la combinaison carte/style/faiblesse.
 -  Interface évolutive, feedback en direct, système de messages.
+-  un inventaire.
