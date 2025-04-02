@@ -1,12 +1,12 @@
   function nextStep() {
     selectedCards = [];
-    player.currentStep++;
-    if (player.currentStep >= listeDesEvenements.length) {
+    player.values.currentStep++;
+    if (player.values.currentStep >= aventure.listeDesEvenements.length) {
       gameOver(true);
       return;
     }
 
-    const step = listeDesEvenements[player.currentStep - 1];
+    const step = aventure.listeDesEvenements[player.values.currentStep - 1];
 
     if (step.fight) {
       startFight(step.fight);
@@ -17,68 +17,19 @@
     }
   }
 
-  function startFight(fight) {
-    enemys.set(fight)
-    enemys.displayInfo()
-
-
-    cursor.classList.remove('hide')
-    enemyIcoStyle.classList.remove('hide')
-    enemyIcoAura.classList.remove('hide')
-    enemyIcoFaiblesse.classList.remove('hide')
+  function startFight(step) {
+    enemys.set(step)
+    front.displayStepInfo(step)
 
     enemys.updateEnemyHP();
+    front.setStepBackgroundImage(step)
 
     cartes.dealCards();
-    // buttonsDiv.style.display = "block";
-    addMessage(`${enemys.currentEnemy.name}`);
-  }
-
-  function displayStepInfo(step) {
-
-    enemyNameElement.textContent = step.name;
-    enemyDescriptionElement.textContent = step.description;
-    if (step.style) {
-      enemyStyleElement.textContent = step.style;
-      enemyIcoStyle.classList.remove('hide')
-    }
-    else {
-      enemyStyleElement.textContent = '';
-      enemyIcoStyle.classList.add('hide')
-    }
-    if (step.aura) {
-      enemyAuraElement.textContent = step.aura;
-      enemyIcoAura.classList.remove('hide')
-    }
-    else {
-      enemyAuraElement.textContent = ''
-      enemyIcoAura.classList.add('hide')
-    }
-
-    if (step.faiblesse) {
-      enemyFaiblesseElement.textContent = step.faiblesse
-      enemyIcoFaiblesse.classList.remove('hide')
-    }
-    else {
-      enemyFaiblesseElement.textContent = ''
-      enemyIcoFaiblesse.classList.add('hide')
-    }
-    if (step.round) {
-      enemyRoundElement.classList.remove('hide');
-    }
-    else {
-      enemyRoundElement.textContent = "";
-      enemyRoundElement.classList.add('hide');
-    }
-
+    addMessage(`Vous affrontez: ${enemys.currentEnemy.name}`);
   }
 
   function startRest(step) {
-
-    enemyNameElement.textContent = step.name;
-    enemyDescriptionElement.textContent = step.description;
-    displayStepInfo(step)
-
+    front.displayStepInfo(step)
 
     // cursor.classList.add('hide')
     buttonsDiv.style.display = "none";
@@ -88,77 +39,30 @@
       let max = step.hp[1]
       let min = step.hp[0]
       const hpGain = Math.floor(Math.random() * (max - min + 1)) + min;
-      player.hp += hpGain;
+      player.values.hp += hpGain;
 
       // hook
-      enemyHPElement.textContent = "+" + hpGain + "hp";
+      // enemyHPElement.textContent = "+" + hpGain + "hp";
       addMessage('Vous gagnez ' + hpGain + ' hp en plus !');
     }
-    player.refreshScoreDiv();
+    player.refreshPlayerDiv();
 
-    enemyImageBoard.style.backgroundImage = "url('" + imageFolder + step.picture + "')";
-
-    const nextButton = document.createElement("button");
-    nextButton.textContent = "Suivant";
-    nextButton.addEventListener("click", () => {
-      nextButton.remove();
-      nextStep();
-    });
-    playerCardsDiv.appendChild(nextButton);
+    front.setStepBackgroundImage(step)
+    
+    front.stepBoardDiv.appendChild(front.nextButton);
   }
-
-
   function startEncounter(step) {
+    front.displayStepInfo(step)
+    front.setStepBackgroundImage(step)
+    
+    addMessage('Vous rencontrez : '+step.name+'.');
 
-    displayStepInfo(step)
-    // {encounter:{
-    //   name: 'Arkan, le Marchand Errant',
-    //   picture: 'arkanlemarchand.webp',
-    //   description: "Ancien voleur devenu marchand, Arkan s’est perdu dans le labyrinthe... et y a vu une opportunité. Il vend de tout, et surtout ce que vous n’avez pas demandé.",
-    //   dialogue: [
-    //     "Oh ! Des visages pas encore décomposés. Intéressant.",
-    //     "Vous avez l’air fatigués... ça tombe bien, j’ai de quoi tenir debout !",
-    //     "J’échange contre or, potions ou un bon fromage... surtout le fromage."
-    //   ],
-    //   objets: [0, 1, 2],
-    //   ambiance: "Chaleureux & louche à la fois.",
-    //   effet: "Permet d’acheter 1 objet aléatoire pour 3 pièces d’or."
-    // }},
+    front.stepBoardDiv.appendChild(front.nextButton);
 
-    // cursor.classList.add('hide')
-    buttonsDiv.style.display = "none";
-
-    addMessage(step.name);
-    if (step.hp && step.hp[0] && step.hp[1]) {
-      let max = step.hp[1]
-      let min = step.hp[0]
-      const hpGain = Math.floor(Math.random() * (max - min + 1)) + min;
-      player.hp += hpGain;
-
-      // hook
-      enemyHPElement.textContent = "+" + hpGain + "hp";
-      addMessage('Vous gagnez ' + hpGain + ' hp en plus !');
-    }
-    player.refreshScoreDiv();
-
-    enemyImageBoard.style.backgroundImage = "url('" + imageFolder + step.picture + "')";
-
-    const nextButton = document.createElement("button");
-    nextButton.textContent = "Suivant";
-    nextButton.addEventListener("click", () => {
-      nextButton.remove();
-      nextStep();
-    });
-    playerCardsDiv.appendChild(nextButton);
   }
-
-
-
-  
-
   function gameOver(win = false) {
     if (win) {
-      addMessage(`Félicitations! Vous avez terminé l'aventure avec ${player.turns} coups et un score de ${player.score}!`);
+      addMessage(`Félicitations! Vous avez terminé l'aventure avec ${player.values.turns} coups et un score de ${player.values.score}!`);
     } else {
       addMessage("Game Over!");
     }
@@ -169,30 +73,26 @@
       resetGame();
       nextStep();
     });
-    playerCardsDiv.appendChild(replayButton);
+    front.playerCardsDiv.appendChild(replayButton);
     buttonsDiv.style.display = "none";
   }
-
-
   function resetGame() {
 
     cartes.reset();
     player.reset();
     enemys.reset();
 
-    player.refreshScoreDiv();
+    // player.refreshScoreDiv();
     enemys.updateEnemyHP();
     player.refreshScoreDiv();
     gameMessagesDiv.innerHTML = "";
   }
-
-
   function attack() {
     if (cartes.selectedCards.length === 0) return;
     const check = cartes.checkCombinations(cartes.selectedCards);
     enemys.currentEnemy.hp -= check.points;
     addMessage(`Vous attaquez l'ennemi et lui infligez ${check.points} dégâts!`);
-    player.turns += 1;
+    player.values.turns += 1;
 
 
     cartes.discardCards();
@@ -203,30 +103,35 @@
       enemyTurn();
     }
   }
-
   function enemyTurn() {
     if (enemys.currentEnemy.hp <= 0) return;
     if (enemys.currentEnemy.round == 3) {
       const damage = Math.floor(Math.random() * (enemys.currentEnemy.dps[1] - enemys.currentEnemy.dps[0] + 1)) + enemys.currentEnemy.dps[0];
-      player.hp -= damage;
+      player.values.hp -= damage;
       addMessage(`L'ennemi vous attaque et vous inflige ${damage} dégâts!`);
 
-      if (player.hp <= 0) {
+      if (player.values.hp <= 0) {
         addMessage("Vous avez été vaincu!");
         gameOver();
       } else {
         enemys.updateEnemyHP();
         player.refreshScoreDiv();
       }
-      player.round += 1;
+      player.values.round += 1;
     }
 
   }
-
   function start() {
     // Initialisation du jeu
-    // resetGame();
+    player.reset();
+    front.init()
+    
+    front.nextButton.addEventListener("click", () => {
+      front.nextButton.remove();
+      nextStep();
+    });
     nextStep();
+
     // dealButton.addEventListener("click", dealCards);
     discardButton.addEventListener("click", function(){cartes.discardCards()});
     attackButton.addEventListener("click", attack);

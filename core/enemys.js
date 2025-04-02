@@ -7,21 +7,10 @@ const enemys = {
       console.log('reset opponent')
     },
     updateEnemyHP:function(){
-      enemyHPElement.textContent = `HP: ${this.currentEnemy.hp}`;
+      if(this.currentEnemy.hp) front.enemyHPElement.textContent = `HP: ${this.currentEnemy.hp}`;
     },
-    set:function(fight){
-      this.currentEnemy = fight
-      this.currentRound=0;
-      console.table(fight)
-    },
-    displayInfo:function(){
-      enemyNameElement.textContent = this.currentEnemy.name;
-      enemyDescriptionElement.textContent = "Description: "+ this.currentEnemy.description;
-      enemyStyleElement.textContent = "Style: "+ this.currentEnemy.style;
-      enemyAuraElement.textContent = "Aura: "+ this.currentEnemy.aura;
-      enemyFaiblesseElement.textContent = "Faiblesse: "+ this.currentEnemy.faiblesse;
-      enemyRoundElement.textContent = "Attaques par round: " +this.currentEnemy.round;
-      enemyImageBoard.style.backgroundImage = "url('"+imageFolder + this.currentEnemy.picture+"')";
-      // enemyImageElement.alt = enemyName;
+    set:function(step){
+      this.currentEnemy = step
+      this.currentRound = 0
     }
   }

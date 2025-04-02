@@ -17,12 +17,12 @@
   }
 
   .card {
-    width: 75px;
-    height: 120px;
+    width: calc( (100vw / 7) - 12px );
+    aspect-ratio: 1/1.6;
     border: 1px solid rgb(0, 0, 0);
     /* display: inline-block; */
     display: flex;
-    margin: 3px;
+    margin: 1px;
     text-align: center;
     justify-content: center;
     align-items: center;
@@ -31,34 +31,31 @@
     position: relative;
     border-radius: 9px;
     background-color: beige;
+    &.selected {
+      border: 2px solid rgb(38, 172, 11);
+      box-shadow: 5px 10px 5px rgba(0, 0, 0, 0.24);
+      transform: translateY(-10px);
+    }
+    &.facedown {
+      background-color: #888;
+      color: #fff;
+    }
+    .value {
+      position: absolute;
+      top: 2px;
+      left: 5px;
+      font-size: 1.2rem;
+      user-select: none;
+    }
+    .category {
+      position: absolute;
+      bottom: 5px;
+      right: 8px;
+      font-size: 1.2rem;
+      user-select: none;
+    }
   }
 
-  .card.selected {
-    border: 2px solid rgb(38, 172, 11);
-    box-shadow: 5px 10px 5px rgba(0, 0, 0, 0.24);
-    transform: translateY(-10px);
-  }
-
-  .card.facedown {
-    background-color: #888;
-    color: #fff;
-  }
-
-  .card .value {
-    position: absolute;
-    top: 5px;
-    left: 8px;
-    font-size: 2rem;
-    user-select: none;
-  }
-
-  .card .category {
-    position: absolute;
-    bottom: 5px;
-    right: 8px;
-    font-size: 2rem;
-    user-select: none;
-  }
 
   #buttons {
     margin-top: 20px;
@@ -84,13 +81,13 @@
   }
 
   /* enemys */
-  #enemy {
+  #stepdatas {
     position: relative;
     border: 1px solid #ccc;
     display: flex;
     justify-content: center;
 
-    #enemy-board {
+    #stepboard {
       position: relative;
       background-position: top center;
       background-size: cover;
@@ -102,7 +99,7 @@
       justify-content: center;
       align-items: center;
 
-      .enemy-datas {
+      .step-header{
         position: absolute;
         top: 5px;
         left: 5px;
@@ -174,3 +171,32 @@
       }
     }
   }
+
+  @media (width > 600px) {
+    
+  .card {
+    width: 75px;
+    border-radius: 9px;
+    &.selected {
+      border: 2px solid rgb(38, 172, 11);
+      box-shadow: 5px 10px 5px rgba(0, 0, 0, 0.24);
+      transform: translateY(-10px);
+    }
+    .value {
+      position: absolute;
+      top: 5px;
+      left: 8px;
+      font-size: 2rem;
+      user-select: none;
+    }
+    .category {
+      position: absolute;
+      bottom: 5px;
+      right: 8px;
+      font-size: 2rem;
+      user-select: none;
+    }
+  }
+
+  }
+  

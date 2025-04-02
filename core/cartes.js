@@ -51,7 +51,7 @@ const cartes = {
     this.updateDeckCount();
   },
   displayCards:function(){
-    let target = playerCardsDiv;
+    let target = front.playerCardsDiv;
     target.innerHTML = "";
 
     for (let card of this.playerCards) {
