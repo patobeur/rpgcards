@@ -35,17 +35,17 @@
       //     effet: "Permet d’acheter 1 objet aléatoire pour 3 pièces d’or."
       //   }
       // },
-      // {
-      //   rest: {
-      //     bonus:{
-      //       hp: [0, 0, 0.25], // min, max or pourcent
-      //     },
-      //     name: "L'aventure commence dans une foret lugubre",
-      //     description: "Un lieu lugubre",
-      //     picture: 'intro.webp',
-      //     continu:'Entrer dans le labyrinthe.'
-      //   }
-      // },
+      {
+        rest: {
+          bonus:{
+            hp: [0, 0, 0.25], // min, max or pourcent
+          },
+          name: "L'aventure commence dans une foret lugubre",
+          description: "Préparez vous à entrer dans le Labyrinthe perdu.",
+          picture: 'intro.webp',
+          continu:'Entrer dans le labyrinthe.'
+        }
+      },
       {fight:{
         reward:{
           score: [100, 100], // min, max or pourcent
