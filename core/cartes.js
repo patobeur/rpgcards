@@ -75,6 +75,7 @@ const cartes = {
     }
   },
   toggleCardSelection:function(event){
+    console.log('---------toggleCardSelection---------')
     let list = [... event.target.classList]
 
     const cardDiv = (list.includes("value") || list.includes("category"))
@@ -97,7 +98,16 @@ const cartes = {
         }
       }
     
+          // console.log('selectedCards',this.selectedCards)
+          let hand = this.checkCombinations(this.selectedCards).hand
+          front.hand.textContent = ''
+          if (hand!='') {
+            console.log('hand',this.selectedCards,hand)
+            front.hand.textContent=hand
+          }
       if (this.selectedCards.length > 0) {
+        // if (this.selectedCards.length > 2) {
+        // }
         front.deckActions.style.display = "block";
       } else {
         front.deckActions.style.display = "none";
@@ -307,7 +317,7 @@ const cartes = {
       points : points,
       hand : hand
     }
-    console.log(respons)
+    // console.log(respons)
     return respons;
   }
 }
