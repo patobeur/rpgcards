@@ -1,3 +1,4 @@
+"use strict";
 const enemys = {
     currentEnemy:{},
     currentRound:0,
@@ -6,11 +7,12 @@ const enemys = {
       this.currentRound=0;
       console.log('reset opponent')
     },
-    updateEnemyHP:function(){
-      if(this.currentEnemy.hp) front.enemyHPElement.textContent = `HP: ${this.currentEnemy.hp}`;
-    },
-    set:function(step){
-      this.currentEnemy = step
+    set:function(){
+      this.currentEnemy = player.event
       this.currentRound = 0
+      player.resetRound()
+    },
+    hpLoss:function(points){
+      this.currentEnemy.hp -= points
     }
   }

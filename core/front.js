@@ -1,4 +1,4 @@
-
+"use strict";
 const front = {
   id: new Number(0),
 	createDiv: function (params) {
@@ -38,6 +38,17 @@ const front = {
 		return element
 	},
   init:function(){
+
+    this.discardPile = this.createDiv({tag:'div',attributes:{id:'discardPile',className:'pile'},prepend:document.body})
+    this.deck = this.createDiv({tag:'div',attributes:{id:'deck',className:'pile'},prepend:document.body})
+    this.deckCountSpan = this.createDiv({tag:'span',attributes:{id:'deckCount'},prepend:this.deck})
+    this.discardCountSpan = this.createDiv({tag:'span',attributes:{id:'discardCount'},prepend:this.discardPile})
+
+
+    this.deckActions = this.createDiv({tag:'div',attributes:{id:'buttons',className:''},style:{display: 'none'},prepend:document.body})
+    this.attackButton = this.createDiv({tag:'button',attributes:{id:'attackButton',textContent:'Attaquer',className:''},style:{},append:this.deckActions})
+    this.discardButton = this.createDiv({tag:'button',attributes:{id:'discardButton',textContent:'Défausser',className:''},style:{},append:this.deckActions})
+
     this.playerCardsDiv = this.createDiv({tag:'div',attributes:{id:'playerCards'},style:{},prepend:document.body})
     this.stepDiv = this.createDiv({tag:'div',attributes:{id:'stepdatas'},style:{},prepend:document.body})
     this.playerDiv = this.createDiv({tag:'div',attributes:{id:'playerdatas'},style:{},prepend:document.body})
@@ -73,39 +84,76 @@ const front = {
 
     // deck
     // nextStepButton
-    this.nextButton = this.createDiv({
-      attributes:{className:'button nextStep',textContent:'Suivant'}
+    this.nextStepButton = this.createDiv({
+      attributes:{className:'button nextstep',textContent:'Suivant'}
     })
+    // others
+  // this.deckCountSpan = this.createDiv({attributes:{id:'deckCount'},append:this.stepBoardDiv})
+    
+
+    // deck and discarded
+  
     
   },
-  setStepBackgroundImage:function(step){
-    let action = Object.keys(aventure.listeDesEvenements[player.values.turns])[0]
-    console.log(action)
-    console.table(aventure.listeDesEvenements[player.values.turns])
-    this.stepBoardDiv.style.backgroundImage = "url('" + aventure.imageFolder + step.picture + "')";
+  setStepBackgroundImage:function(){
+    this.stepBoardDiv.style.backgroundImage = "url('" + aventure.imageFolder + player.event.picture + "')";
   },
-  displayStepInfo:function(step) {
-    this.enemyNameElement.textContent = step.name;
-    this.enemyTipDescription.textContent = step.description;
-    
-    if (step.round) {
-      this.enemyRoundElement.classList.remove('hide');
+  refreshEnemyStats:function() {
+    this.enemyHPElement.textContent = '❤️' + player.event.stats.hp.cur + '/' + player.event.stats.hp.max;
+    console.log('cycle',player.event.attack.cycle)
+    console.log('length',player.event.attack.cycle.length)
+    console.log('round',player.event.stats.round)
+
+    this.enemyRoundElement.textContent = ''
+    // let span = front.createDiv({tag:'span',attributes:{textContent:' 🇷 ',className:'round-item'},append:this.enemyRoundElement})
+    let rCount = 0
+    player.event.attack.cycle.forEach(r => {
+      let className = (rCount == player.event.stats.round) ? ' actual' : '';
+      console.log('r',r,className)
+      let span = front.createDiv({attributes:{textContent:r,className:'round-item'+className},append:this.enemyRoundElement})
+      rCount++
+    });
+    // this.enemyRoundElement.textContent = ' 🇷 ' + player.event.stats.round;
+  },
+  displayStepInfo:function() {
+    this.enemyNameElement.textContent = player.event.name;
+    this.enemyTipDescription.textContent = player.event.description;
+    this.enemyTipDescription.classList.add('fade');
+
+    setTimeout(() => {
+        this.enemyTipDescription.classList.remove('fade');
+    }, "4000");
+
+    if (player.event.stats && player.event.stats.hp) {
+      // this.enemyHPElement.textContent = '❤️' + player.event.stats.hp.cur + '/' + player.event.stats.hp.max;
+      front.refreshEnemyStats()
+      this.enemyHPElement.classList.remove('hide');
     }
     else {
-      this.enemyRoundElement.textContent = "";
-      this.enemyRoundElement.classList.add('hide');
+      this.enemyHPElement.classList.add('hide');
+      this.enemyHPElement.textContent = "";
     }
 
-    if (step.style) {
-      this.enemyTipStyle.textContent = step.style;
+    // if (player.event.stats && player.event.stats.round >= 0) {
+    //   this.enemyRoundElement.classList.remove('hide');
+    //   this.enemyRoundElement.textContent = ' 🇷 ' + player.event.stats.round;
+    // }
+    // else {
+    //   this.enemyRoundElement.classList.add('hide');
+    //   this.enemyRoundElement.textContent = "";
+    // }
+
+    if (player.event.style) {
+      this.enemyTipStyle.textContent = player.event.style;
       this.enemyIcoStyle.classList.remove('hide')
     }
     else {
       this.enemyTipStyle.textContent = '';
       this.enemyIcoStyle.classList.add('hide')
     }
-    if (step.aura) {
-      this.enemyTipAura.textContent = step.aura;
+
+    if (player.event.aura) {
+      this.enemyTipAura.textContent = player.event.aura;
       this.enemyIcoAura.classList.remove('hide')
     }
     else {
@@ -113,8 +161,8 @@ const front = {
       this.enemyIcoAura.classList.add('hide')
     }
 
-    if (step.faiblesse) {
-      this.enemyTipFaiblesse.textContent = step.faiblesse
+    if (player.event.faiblesse) {
+      this.enemyTipFaiblesse.textContent = player.event.faiblesse
       this.enemyIcoFaiblesse.classList.remove('hide')
     }
     else {
@@ -123,22 +171,23 @@ const front = {
     }
 
   },
+  displayNextStepButton:function(){
+    let texte = player.event.continu ?? 'Continuer'
+    this.nextStepButton.textContent = texte
+    setTimeout(() => {
+      this.stepBoardDiv.appendChild(this.nextStepButton);
+    }, "4000");
+  }
 }
 
-  const deckDiv = document.getElementById("deck");
   
-  // const dealButton = document.getElementById("dealButton");
-  const playerCardsDiv = document.getElementById("playerCards");
-  const attackButton = document.getElementById("attackButton");
-  const discardButton = document.getElementById("discardButton");
 
-  const discardPileDiv = document.getElementById("discardPile");
+  // const discardPileDiv = document.getElementById("discardPile");
   
-  const deckCountSpan = document.getElementById("deckCount");
-  const discardCountSpan = document.getElementById("discardCount");
+  // const deckCountSpan = document.getElementById("deckCount");
+  // const discardCountSpan = document.getElementById("discardCount");
 
   const gameMessagesDiv = document.getElementById("game-messages");
-  const buttonsDiv = document.getElementById("buttons"); // Ajout de cette ligne!
 
   function addMessage(message) {
     const messageElement = document.createElement("p");

@@ -1,72 +1,140 @@
-  function nextStep() {
-    selectedCards = [];
-    player.values.currentStep++;
-    if (player.values.currentStep >= aventure.listeDesEvenements.length) {
-      gameOver(true);
+"use strict";
+const game = {
+  start:function() {
+    player.reset();
+    front.init()
+    this.checkStep();
+    this.addListener()
+  },
+  addListener:function() {
+    // listener bouton: suite, defausser et jouer 
+    front.nextStepButton.addEventListener("click",()=>{front.nextStepButton.remove();this.nextStep();});
+    front.discardButton.addEventListener("click",()=>{cartes.discardCards()});
+    front.attackButton.addEventListener("click",()=>{this.playerAttack()});
+  },
+  
+  nextStep:function() {
+    player.nextStep()
+  
+    if (player.values.stepNum >= aventure.listeDesEvenements.length-1) {
+      this.gameOver(true);
       return;
     }
+    this.checkStep();
+  },
+  checkStep:function() {
+    console.clear()
+    console.log('stepNum:',player.stepNum)
+    console.log('eventType:',player.eventType)
+    console.table(player.event)
 
-    const step = aventure.listeDesEvenements[player.values.currentStep - 1];
+    if(player.eventType=='fight'){this.startFight();}
+    if(player.eventType=='rest'){this.startRest();}
+    if(player.eventType=='encounter'){this.startEncounter(player.step);}
+  },
 
-    if (step.fight) {
-      startFight(step.fight);
-    } else if (step.rest) {
-      startRest(step.rest);
-    } else if (step.encounter) {
-      startEncounter(step.encounter);
+  startRest:function () {
+    console.log('--------startRest---------')
+    front.displayStepInfo()
+    front.setStepBackgroundImage()
+    
+    front.deckActions.style.display = "none";
+
+    addMessage(player.event.name);
+
+    if(player.event.bonus){
+      let message = player.setRestBonus()
+      addMessage(message ?? 'vide');
     }
-  }
 
-  function startFight(step) {
-    enemys.set(step)
-    front.displayStepInfo(step)
+    front.displayNextStepButton()
+    player.refreshPlayerStats();
+  },
+  startFight:function() {
+    player.initEventFight()
+    addMessage(player.event.accroche ?? `Vous affrontez ${player.event.prefixed}`);
 
-    enemys.updateEnemyHP();
-    front.setStepBackgroundImage(step)
-
+    front.displayStepInfo()
+    front.setStepBackgroundImage()
+    
+    player.refreshPlayerStats();
     cartes.dealCards();
-    addMessage(`Vous affrontez: ${enemys.currentEnemy.name}`);
-  }
+  },
 
-  function startRest(step) {
-    front.displayStepInfo(step)
+  enemyTurn:function() {
+    if (player.event.stats.hp.cur <= 0) return;
 
-    // cursor.classList.add('hide')
-    buttonsDiv.style.display = "none";
 
-    addMessage(step.name);
-    if (step.hp && step.hp[0] && step.hp[1]) {
-      let max = step.hp[1]
-      let min = step.hp[0]
-      const hpGain = Math.floor(Math.random() * (max - min + 1)) + min;
-      player.values.hp += hpGain;
 
-      // hook
-      // enemyHPElement.textContent = "+" + hpGain + "hp";
-      addMessage('Vous gagnez ' + hpGain + ' hp en plus !');
+    console.log('round:',player.event.stats.round)
+    console.log('cycle:',player.event.attack.cycle[player.event.stats.round])
+
+    if (player.event.attack.cycle[player.event.stats.round] == 1) {
+      let min = player.event.dps[0]
+      let max = player.event.dps[1]
+      const damage = Math.floor(Math.random() * (max - min + 1)) + min;
+      player.values.hp -= damage;
+      addMessage(`L'ennemi vous attaque et vous inflige ${damage} dégâts!`);
+
     }
-    player.refreshPlayerDiv();
-
-    front.setStepBackgroundImage(step)
     
-    front.stepBoardDiv.appendChild(front.nextButton);
-  }
+    player.event.stats.round += 1
+    if(player.event.stats.round >= player.event.attack.cycle.length){
+      player.event.stats.round = 0
+    }
+    if (player.values.hp <= 0) {
+      addMessage("Vous avez été vaincu ! ");
+      gameOver();
+    } else {
+      front.refreshEnemyStats();
+      player.refreshPlayerStats();
+    }
+  },
+  
+  playerAttack: function(){
+    if (cartes.selectedCards.length === 0) return;
+    player.values.plis += 1;
+    
+    const check = cartes.checkCombinations(cartes.selectedCards);
+    console.log('--------playerAttack--------')
+    player.setEnemyHpLoss(check)
+
+    addMessage(`Vous attaquez l'ennemi et lui infligez ${check.points} dégâts!`);
+
+    cartes.discardCards();
+    if (player.event.stats && player.event.stats.hp <= 0) {
+      addMessage(`Vous avez vaincu ${player.event.prefixed}!`);
+      // rewards
+      // todo
+
+      nextStep();
+    } else {
+      this.enemyTurn();
+    }
+  },
+
+}
+
+
+
   function startEncounter(step) {
-    front.displayStepInfo(step)
-    front.setStepBackgroundImage(step)
+    let action = Object.keys(step)[0]
+    let event = step[action]
+    front.displayStepInfo(event)
+    front.setStepBackgroundImage(event)
     
-    addMessage('Vous rencontrez : '+step.name+'.');
+    addMessage('Vous rencontrez : '+event.name+'.');
 
     front.stepBoardDiv.appendChild(front.nextButton);
 
   }
+
   function gameOver(win = false) {
     if (win) {
-      addMessage(`Félicitations! Vous avez terminé l'aventure avec ${player.values.turns} coups et un score de ${player.values.score}!`);
+      addMessage(`Félicitations! Vous avez terminé l'aventure avec ${player.values.plis} coups et un score de ${player.values.score}!`);
     } else {
       addMessage("Game Over!");
     }
-
     const replayButton = document.createElement("button");
     replayButton.textContent = "Rejouer";
     replayButton.addEventListener("click", () => {
@@ -87,54 +155,4 @@
     player.refreshScoreDiv();
     gameMessagesDiv.innerHTML = "";
   }
-  function attack() {
-    if (cartes.selectedCards.length === 0) return;
-    const check = cartes.checkCombinations(cartes.selectedCards);
-    enemys.currentEnemy.hp -= check.points;
-    addMessage(`Vous attaquez l'ennemi et lui infligez ${check.points} dégâts!`);
-    player.values.turns += 1;
-
-
-    cartes.discardCards();
-    if (enemys.currentEnemy.hp <= 0) {
-      addMessage(`Vous avez vaincu ${enemys.currentEnemy.enemyName}!`);
-      nextStep();
-    } else {
-      enemyTurn();
-    }
-  }
-  function enemyTurn() {
-    if (enemys.currentEnemy.hp <= 0) return;
-    if (enemys.currentEnemy.round == 3) {
-      const damage = Math.floor(Math.random() * (enemys.currentEnemy.dps[1] - enemys.currentEnemy.dps[0] + 1)) + enemys.currentEnemy.dps[0];
-      player.values.hp -= damage;
-      addMessage(`L'ennemi vous attaque et vous inflige ${damage} dégâts!`);
-
-      if (player.values.hp <= 0) {
-        addMessage("Vous avez été vaincu!");
-        gameOver();
-      } else {
-        enemys.updateEnemyHP();
-        player.refreshScoreDiv();
-      }
-      player.values.round += 1;
-    }
-
-  }
-  function start() {
-    // Initialisation du jeu
-    player.reset();
-    front.init()
-    
-    front.nextButton.addEventListener("click", () => {
-      front.nextButton.remove();
-      nextStep();
-    });
-    nextStep();
-
-    // dealButton.addEventListener("click", dealCards);
-    discardButton.addEventListener("click", function(){cartes.discardCards()});
-    attackButton.addEventListener("click", attack);
-  }
-
-  start();
+  game.start();

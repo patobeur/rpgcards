@@ -1,5 +1,4 @@
-
-
+"use strict";
 const cartes = {
   emoji: ["♥", "♦", "♣", "♠"],
   suits: [0, 1, 2, 3],
@@ -44,7 +43,7 @@ const cartes = {
   dealCards:function(){
     this.createDeck();
     this.playerCards = [];
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < player.values.handSize; i++) {
       this.playerCards.push(this.deck.pop());
     }
     this.displayCards();
@@ -99,9 +98,9 @@ const cartes = {
       }
     
       if (this.selectedCards.length > 0) {
-        buttonsDiv.style.display = "block";
+        front.deckActions.style.display = "block";
       } else {
-        buttonsDiv.style.display = "none";
+        front.deckActions.style.display = "none";
       }
       
     }
@@ -120,31 +119,32 @@ const cartes = {
     // Remplace les cartes selectionnées par de nouvelles
     let cardIndex = 0;
     for (let i = 0; i < this.playerCards.length; i++) {
-      if (this.selectedCards.includes(playerCardsDiv.children[i])) {
+      if (this.selectedCards.includes(front.playerCardsDiv.children[i])) {
         this.playerCards[i] = newCards[cardIndex];
         cardIndex++;
       }
     }
   
     this.selectedCards = [];
+    front.deckActions.style.display = "none";
     this.displayCards();
-    buttonsDiv.style.display = "none";
+
     this.updateDeckCount();
-    this.updateDiscardCount();
   },
   updateDeckCount:function(){
-    deckCountSpan.textContent = this.deck.length;
+    front.deckCountSpan.textContent = this.deck.length;
+    this.updateDiscardCount()
   },  
   updateDiscardCount:function(){
-    discardCountSpan.textContent = this.discardPile.length;
+    front.discardCountSpan.textContent = this.discardPile.length;
   },
   // ---------------------------
   checkCombinations:function(selectedCards){
     const cardValues = selectedCards.map(card => cartes.valueMap[card.textContent.slice(0, -1)]);
     const cardSuits = selectedCards.map(card => card.textContent.slice(-1));
-    console.log('checkCombinations')
-    console.log('selectedCards Values:',cardValues)
-    console.log('selectedCards Suits:',cardSuits)
+    // console.log('checkCombinations')
+    // console.log('selectedCards Values:',cardValues)
+    // console.log('selectedCards Suits:',cardSuits)
     let points = 0;
     let hand = "";
   

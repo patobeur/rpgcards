@@ -4,6 +4,8 @@
 
 **RPG-CARDS** est un **jeu de cartes tactique** au tour par tour mêlant **jeu de rôle (RPG)** et **deck-building**. Le joueur affronte une série d’ennemis à l’aide de cartes aux effets variés (attaque, défense, soins, buffs...), avec une interface interactive et des mécaniques de stratégie simples mais efficaces.
 
+Version en dev sur [github](https://patobeur.github.io/rpgcards/)
+
 ---
 
 ##  Structure générale
@@ -56,9 +58,9 @@ Ce fichier contient un **objet `player`** qui représente l’état du joueur au
 
 - **Propriétés** :
   - `score` : score total accumulé
-  - `currentStep` : étape actuelle du jeu
+  - `stepNum` : étape actuelle du jeu
   - `hp` : points de vie du joueur
-  - `turns` : nombre de coups joués
+  - `plis` : nombre de coups joués
   - `round` : round en cours
 
 - **Méthodes** :

@@ -20,40 +20,51 @@
       },
     },
     listeDesEvenements: [
-      {
-        encounter:{
-          name: 'Arkan, le Marchand Errant',
-          picture: 'arkanlemarchand.webp',
-          description: "Ancien voleur devenu marchand, Arkan s’est perdu dans le labyrinthe... et y a vu une opportunité. Il vend de tout, et surtout ce que vous n’avez pas demandé.",
-          dialogue: [
-            "Oh ! Des visages pas encore décomposés. Intéressant.",
-            "Vous avez l’air fatigués... ça tombe bien, j’ai de quoi tenir debout !",
-            "J’échange contre or, potions ou un bon fromage... surtout le fromage."
-          ],
-          objets: [0, 1, 2],
-          ambiance: "Chaleureux & louche à la fois.",
-          effet: "Permet d’acheter 1 objet aléatoire pour 3 pièces d’or."
-        }
-      },
-      {
-        rest: {
-          hp: [20, 20], // points de vie récupéres
-          name: "L'aventure commence dans une foret lugubre",
-          description: "Un lieu lugubre",
-          picture: 'intro.webp'
-        }
-      },
+      // {
+      //   encounter:{
+      //     name: 'Arkan, le Marchand Errant',
+      //     picture: 'arkanlemarchand.webp',
+      //     description: "Ancien voleur devenu marchand, Arkan s’est perdu dans le labyrinthe... et y a vu une opportunité. Il vend de tout, et surtout ce que vous n’avez pas demandé.",
+      //     dialogue: [
+      //       "Oh ! Des visages pas encore décomposés. Intéressant.",
+      //       "Vous avez l’air fatigués... ça tombe bien, j’ai de quoi tenir debout !",
+      //       "J’échange contre or, potions ou un bon fromage... surtout le fromage."
+      //     ],
+      //     objets: [0, 1, 2],
+      //     ambiance: "Chaleureux & louche à la fois.",
+      //     effet: "Permet d’acheter 1 objet aléatoire pour 3 pièces d’or."
+      //   }
+      // },
+      // {
+      //   rest: {
+      //     bonus:{
+      //       hp: [0, 0, 0.25], // min, max or pourcent
+      //     },
+      //     name: "L'aventure commence dans une foret lugubre",
+      //     description: "Un lieu lugubre",
+      //     picture: 'intro.webp',
+      //     continu:'Entrer dans le labyrinthe.'
+      //   }
+      // },
       {fight:{
-        hp: 90,
+        reward:{
+          score: [100, 100], // min, max or pourcent
+        },
+        stats:{
+          hp: {cur:90,max:90},
+        },
+        hp: {cur:90,max:90},
         name: 'Garde de Pierre',
         picture: 'gardedepierre.webp',
         description: "Sculpté dans les âges anciens, ce gardien de pierre attend patiemment que quelqu’un ose franchir son seuil. Animé par des runes oubliées, il veille sans repos.",
         style: "Ses attaques sont lourdes, rythmées comme des tambours de guerre. Il broie tout ce qui s’approche.",
         faiblesse: "Ses mouvements sont lents. Un combattant agile peut esquiver ses coups.",
         aura: "Immobile & inébranlable.",
-        round: 2,
+        attack:{cycle: [0,0,1]},
         dps: [4,7],
-        gold: 5
+        gold: 0,
+        prefixName:"Le",
+        accroche:'Le Garde de Pierre vous barre la route. Vous allez devoir en découdre.'
       }},
       {encounter:{
         name: 'Arkan, le Marchand Errant',
@@ -78,22 +89,28 @@
         aura: "Sinueux & terrifiant.",
         round: 3,
         dps: [2,8],
-        gold: 6
+        gold: 6,
+        prefixName:"Le",
+        accroche:'Le Spectre du Couloir tourne la tête vers vous !'
       }},
-      {fight:{
-        hp: 55,
-        name: 'Rats des Ombres',
-        picture: 'ratsdesombres.webp',
-        description: "Nés dans la crasse et la magie noire, ces rats sont les yeux du labyrinthe. Ils attaquent en meute, rapides et imprévisibles.",
-        style: "Ils surgissent de tous les côtés, mordent, griffent, puis disparaissent dans les recoins.",
-        faiblesse: "Une forte lumière ou une explosion sonore les fait fuir momentanément.",
-        aura: "Répugnants & voraces.",
-        round: 2,
-        dps: [3,5],
-        gold: 4
-      }},
+      // {fight:{
+      //   hp: 55,
+      //   name: 'Rats des Ombres',
+      //   picture: 'ratsdesombres.webp',
+      //   description: "Nés dans la crasse et la magie noire, ces rats sont les yeux du labyrinthe. Ils attaquent en meute, rapides et imprévisibles.",
+      //   style: "Ils surgissent de tous les côtés, mordent, griffent, puis disparaissent dans les recoins.",
+      //   faiblesse: "Une forte lumière ou une explosion sonore les fait fuir momentanément.",
+      //   aura: "Répugnants & voraces.",
+      //   round: 2,
+      //   dps: [3,5],
+      //   gold: 4
+      // }},
       {rest:{
-        name: 'Pause',
+        name: 'Pause 4',
+        bonus:{
+          hp: [20, 20], // points de vie récupéres
+          score: [200, 200],
+        },
         picture: 'pause.webp',
         description: "Les aventuriers peuvent récupérer 10 PV ou retirer un effet négatif (poison, malédiction…). Aucun ennemi ne rôde ici… pour l’instant.",
         
@@ -110,7 +127,9 @@
         aura: "Troublant & silencieux.",
         round: 3,
         dps: [3,6],
-        gold: 5
+        gold: 5,
+        prefixName:"Le",
+        accroche:"Le Veilleur Sombre n'a pas l'air comode !"
       }},
       {fight:{
         hp: 65,
@@ -131,19 +150,19 @@
         ambiance: "Chaleureux & tranquille à la fois.",
         effet: "Tous les aventuriers peuvent se soigner complètement ou récupérer un objet magique consommé."
       }},
-      {encounter:{
-        name: 'Mira, la Rôdeuse Oubliée',
-        picture: 'miralarodeuse.webp',
-        description: "Silencieuse et méfiante, Mira arpente les couloirs depuis plus longtemps qu’elle ne veut l’avouer. Elle troque des objets rares contre quelques pièces ou informations.",
-        dialogue: [
-          "Vous avez l’air d’avoir survécu à pas mal de choses… comme moi.",
-          "Tout se vend, tout s’échange. Même un souvenir.",
-          "Restez pas trop longtemps, la pierre a des oreilles ici."
-        ],
-        objets: ['Flèche spectrale', 'Baume de soin', 'Rune de silence'],
-        ambiance: "Froide mais digne de confiance.",
-        effet: "Permet d’acheter 1 objet rare pour 4 pièces d’or."
-      }},
+      // {encounter:{
+      //   name: 'Mira, la Rôdeuse Oubliée',
+      //   picture: 'miralarodeuse.webp',
+      //   description: "Silencieuse et méfiante, Mira arpente les couloirs depuis plus longtemps qu’elle ne veut l’avouer. Elle troque des objets rares contre quelques pièces ou informations.",
+      //   dialogue: [
+      //     "Vous avez l’air d’avoir survécu à pas mal de choses… comme moi.",
+      //     "Tout se vend, tout s’échange. Même un souvenir.",
+      //     "Restez pas trop longtemps, la pierre a des oreilles ici."
+      //   ],
+      //   objets: ['Flèche spectrale', 'Baume de soin', 'Rune de silence'],
+      //   ambiance: "Froide mais digne de confiance.",
+      //   effet: "Permet d’acheter 1 objet rare pour 4 pièces d’or."
+      // }},
       {fight:{
         hp: 85,
         name: 'Illusionniste Fou',
