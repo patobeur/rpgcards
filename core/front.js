@@ -178,6 +178,21 @@ const front = {
   hideDecks:function(){
     this.discardPile.style.display = 'none'
     this.deck.style.display = 'none'
+  },
+  displayMarket:function(){
+    console.log('----------displayMarket------------')
+    console.log(player.event.objets)
+    player.event.objets.forEach(element => {
+      console.log(aventure.listeDesObjets[element])
+      let itemCard = this.createDiv({
+        attributes:{className:'item-card'},
+        style:{backgroundImage:"url('" + aventure.imageItemsFolder + aventure.listeDesObjets[element].picture + "')"},
+        append:this.playerCardsDiv
+      })
+      this.playerCardsDiv.appendChild(itemCard);
+      
+    // this.stepBoardDiv.style.backgroundImage = "url('" + aventure.imageFolder + player.event.picture + "')";
+    });
   }
 }
 

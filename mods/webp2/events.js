@@ -1,37 +1,93 @@
   // let imageFolder = "png/";
   const aventure = {
     imageFolder: "mods/webp2/",
+    imageItemsFolder: "mods/webp2/items/",
     imageExt: ".webp",
-    listeDesObjets: {
-      0: {
+    listeDesObjets: [
+      {
         name: "Potion de soins",
+        picture:'potiondesoins.png',
         description: "Buvez cette potion pour récupérer 20 à 50 hp !",
         effect: [{
-          type: 'bonus',
-          stat: 'hp',
-          values: [20, 50]
+          stats: {hp:[25,50]}
         }]
       },
-      1: {
+      {
         name: "Épée de Justice",
-        description: "+25 dégats quand vous attaquez un Diable",
+        picture:'epeedejustice.png',
+        description: "30 à 30 de dégats suplémentaire quand vous attaquez un Diable",
         effect: [{
-          type: 'damage',
-          stat: 'hp',
-          values: [25]
+          attack: {hp:[25]},
+          stats: {hp:[25,50]}
         }]
       },
-      2: {
+      {
         name: "Anneau de protection contre le mal",
-        description: "-25 dégats quand un être mauvais vous fait des degats",
+        picture:'anneaudeprotectioncontrelemal.png',
+        description: "25pts de protection quand un être maléfique vous fait des dégats",
         effect: [{
-          type: 'protection',
-          stat: 'hp',
-          values: [25]
+          protection: {hp:[25]}
         }]
       },
-    },
+      {
+        'name': "Arc de feu",
+        'picture':'arcdefeu.png',
+        'description': "25pts de protection quand un être maléfique vous fait des dégats",
+        'effect': [{
+          'protection': {'hp':[25]}
+        }]
+      },
+      {
+        "name": "Cristal de soin rayonnant",
+        "picture": "cristaldesoinrayonnant.png",
+        "description": "Rend instantanément 50 points de vie et émet une lumière apaisante avant de disparaitre.",
+        'once':true,
+        "effect": [{
+          "stats": { "hp": [50] },
+          "status": { "calm": true }
+        }]
+      },
+      {
+        "name": "Binocle de Lucidité",
+        "picture": "binocledelucidite.png",
+        "description": "Permet de voir plus clair dans le jeu. Le joueur peut garder deux carte supplémentaire en main.",
+        "effect": [{
+          "stats": { "hand": 2 },
+        }]
+      },
+      {
+        "name": "Binocle de Lucidité",
+        "picture": "monocledelucidite.png",
+        "description": "Permet de voir plus clair dans le jeu. Le joueur peut garder une carte supplémentaire en main.",
+        "effect": [{
+          "stats": { "hand": 1 },
+        }]
+      },
+      {
+        "name": "Bouclier de renvoi magique",
+        "picture": "bouclierderenvoimagique.png",
+        "description": "Renvoie 50% des dégâts des attaques magiques vers l'attaquant.",
+        "effect": [{
+          "reflect": { "magic": 0.5 },
+          "protection": { "magic": [20] }
+        }]
+      }
+    ],
     listeDesEvenements: [
+      {encounter: {
+          name: 'Arkan, le Marchand Errant',
+          picture: 'arkanlemarchand.webp',
+          description: "Ancien voleur devenu marchand, Arkan s’est perdu dans le labyrinthe... et y a vu une opportunité. Il vend de tout, et surtout ce que vous n’avez pas demandé.",
+          dialogue: [
+            "Oh ! Des visages pas encore décomposés. Intéressant.",
+            "Vous avez l’air fatigués... ça tombe bien, j’ai de quoi tenir debout !",
+            "J’échange contre or, potions ou un bon fromage... surtout le fromage."
+          ],
+          objets: [0, 1, 2],
+          ambiance: "Chaleureux & louche à la fois.",
+          effet: "Permet d’acheter 1 objet aléatoire pour 3 pièces d’or."
+        }
+      },
       {rest: {
           bonus: {
             hp: [0, 0, 0.25], // min, max or pourcent

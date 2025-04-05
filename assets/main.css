@@ -64,6 +64,23 @@
         user-select: none;
       }
     }
+    .item-card{
+      width: 90px;
+      aspect-ratio: 1/1;
+      border: 1px solid rgb(0, 0, 0);
+      /* display: inline-block; */
+      display: flex;
+      margin: 1px;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      position: relative;
+      border-radius: 5px;
+      background-color: beige;
+      background-size: cover;
+      background-position: center;
+    }
   }
 
   .red {

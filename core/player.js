@@ -75,6 +75,7 @@ const player = {
       }
       if(texte!='') texte = 'Vous trouvez :' + texte 
     }
+    this.refreshPlayerStats();
     return texte
   },
   nextStep:function() {

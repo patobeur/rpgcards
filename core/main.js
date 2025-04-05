@@ -90,14 +90,12 @@ const game = {
     console.log('--------playerAttack--------')
     player.setEnemyHpLoss(check)
 
-    addMessage(`Vous attaquez l'ennemi et lui infligez ${check.points} dégâts!`);
+    addMessage(`Vous attaquez l'ennemi et lui infligez ${check.points} dégâts avec ${check.hand} !`);
 
     cartes.discardCards();
     if (player.event.stats && player.event.stats.hp.cur <= 0) {
       addMessage(`Vous avez vaincu ${player.event.prefixed}!`);
       // rewards
-      // todo
-      
       if(player.event.reward){
         let message = player.setRewardBonus(player.event.reward)
         addMessage(message ?? 'vide');
@@ -116,6 +114,10 @@ const game = {
     front.setStepBackgroundImage()
     
     addMessage('Vous rencontrez : '+player.event.name+'.');
+
+
+      front.displayMarket()
+
 
     // front.stepBoardDiv.appendChild(front.nextButton);
     front.displayNextStepButton()
