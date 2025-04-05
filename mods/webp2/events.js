@@ -74,20 +74,20 @@
       }
     ],
     listeDesEvenements: [
-      {encounter: {
-          name: 'Arkan, le Marchand Errant',
-          picture: 'arkanlemarchand.webp',
-          description: "Ancien voleur devenu marchand, Arkan s’est perdu dans le labyrinthe... et y a vu une opportunité. Il vend de tout, et surtout ce que vous n’avez pas demandé.",
-          dialogue: [
-            "Oh ! Des visages pas encore décomposés. Intéressant.",
-            "Vous avez l’air fatigués... ça tombe bien, j’ai de quoi tenir debout !",
-            "J’échange contre or, potions ou un bon fromage... surtout le fromage."
-          ],
-          objets: [0, 1, 2],
-          ambiance: "Chaleureux & louche à la fois.",
-          effet: "Permet d’acheter 1 objet aléatoire pour 3 pièces d’or."
-        }
-      },
+      // {encounter: {
+      //     name: 'Arkan, le Marchand Errant',
+      //     picture: 'arkanlemarchand.webp',
+      //     description: "Ancien voleur devenu marchand, Arkan s’est perdu dans le labyrinthe... et y a vu une opportunité. Il vend de tout, et surtout ce que vous n’avez pas demandé.",
+      //     dialogue: [
+      //       "Oh ! Des visages pas encore décomposés. Intéressant.",
+      //       "Vous avez l’air fatigués... ça tombe bien, j’ai de quoi tenir debout !",
+      //       "J’échange contre or, potions ou un bon fromage... surtout le fromage."
+      //     ],
+      //     objets: [0, 1, 2],
+      //     ambiance: "Chaleureux & louche à la fois.",
+      //     effet: "Permet d’acheter 1 objet aléatoire pour 3 pièces d’or."
+      //   }
+      // },
       {rest: {
           bonus: {
             hp: [0, 0, 0.25], // min, max or pourcent
