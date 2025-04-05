@@ -1,55 +1,17 @@
 "use strict";
 const front = {
-  id: new Number(0),
-	createDiv: function (params) {
-		let element = document.createElement(params.tag??'div');
-		if (params.attributes) {
-			for (const key in params.attributes) {
-				if (Object.hasOwnProperty.call(params.attributes, key)){
-					element[key] = params.attributes[key];
-				}
-			}
-		}
-		if (params.style) {
-				for (const key2 in params.style) {
-					if (Object.hasOwnProperty.call(params.style, key2))
-						element.style[key2] = params.style[key2];
-			}
-		}
-		if (params.recenter === true && (params.style.left && params.style.top)) {
-			let n = (params.attributes && params.attributes.className) ? params.attributes.className : 'vide'
-			let t = params.style.top.slice(0, -2);
-			let l = params.style.left.slice(0, -2);
-			let w = params.style.width.slice(0, -2);
-			let h = params.style.height.slice(0, -2);
-			this.recentering(element, t, l, w, h, n)
-		}
-		if (params.prepend){params.prepend.prepend(element)}
-		if (params.append){params.append.append(element)}
-		return element;
-	},
-	recentering: function (element, t, l, w, h, n) {
-		if (element.style.left && element.style.width) {
-			element.style.left = l - (w / 2) + 'px'
-		}
-		if (element.style.top && element.style.height) {
-			element.style.top = t - (h / 2) + 'px'
-		}
-		return element
-	},
   init:function(){
-
-    this.discardPile = this.createDiv({tag:'div',attributes:{id:'discardPile',className:'pile'},prepend:document.body})
-    this.deck = this.createDiv({tag:'div',attributes:{id:'deck',className:'pile'},prepend:document.body})
-    this.deckCountSpan = this.createDiv({tag:'span',attributes:{id:'deckCount'},prepend:this.deck})
+    this.discardPile = this.createDiv({tag:'div',attributes:{id:'discardPile',className:'pile'},style:{display: 'none'},prepend:document.body})
+    this.deck = this.createDiv({tag:'div',attributes:{id:'deck',className:'pile'},style:{display: 'none'},prepend:document.body})
     this.discardCountSpan = this.createDiv({tag:'span',attributes:{id:'discardCount'},prepend:this.discardPile})
+    this.deckCountSpan = this.createDiv({tag:'span',attributes:{id:'deckCount'},prepend:this.deck})
 
 
     this.deckActions = this.createDiv({tag:'div',attributes:{id:'buttons',className:''},style:{display: 'none'},prepend:document.body})
-    this.attackButton = this.createDiv({tag:'button',attributes:{id:'attackButton',textContent:'Attaquer',className:''},style:{},append:this.deckActions})
     this.discardButton = this.createDiv({tag:'button',attributes:{id:'discardButton',textContent:'Défausser',className:''},style:{},append:this.deckActions})
+    this.attackButton = this.createDiv({tag:'button',attributes:{id:'attackButton',textContent:'Attaquer',className:''},style:{},append:this.deckActions})
 
-    this.hand = this.createDiv({tag:'div',attributes:{id:'hand',textContent:'hand'},style:{},prepend:document.body})
+    this.hand = this.createDiv({tag:'div',attributes:{id:'hand',textContent:''},style:{},prepend:document.body})
     this.playerCardsDiv = this.createDiv({tag:'div',attributes:{id:'playerCards'},style:{},prepend:document.body})
 
 
@@ -99,6 +61,42 @@ const front = {
   
     
   },
+	createDiv: function (params) {
+		let element = document.createElement(params.tag??'div');
+		if (params.attributes) {
+			for (const key in params.attributes) {
+				if (Object.hasOwnProperty.call(params.attributes, key)){
+					element[key] = params.attributes[key];
+				}
+			}
+		}
+		if (params.style) {
+				for (const key2 in params.style) {
+					if (Object.hasOwnProperty.call(params.style, key2))
+						element.style[key2] = params.style[key2];
+			}
+		}
+		if (params.recenter === true && (params.style.left && params.style.top)) {
+			let n = (params.attributes && params.attributes.className) ? params.attributes.className : 'vide'
+			let t = params.style.top.slice(0, -2);
+			let l = params.style.left.slice(0, -2);
+			let w = params.style.width.slice(0, -2);
+			let h = params.style.height.slice(0, -2);
+			this.recentering(element, t, l, w, h, n)
+		}
+		if (params.prepend){params.prepend.prepend(element)}
+		if (params.append){params.append.append(element)}
+		return element;
+	},
+	recentering: function (element, t, l, w, h, n) {
+		if (element.style.left && element.style.width) {
+			element.style.left = l - (w / 2) + 'px'
+		}
+		if (element.style.top && element.style.height) {
+			element.style.top = t - (h / 2) + 'px'
+		}
+		return element
+	},
   setStepBackgroundImage:function(){
     this.stepBoardDiv.style.backgroundImage = "url('" + aventure.imageFolder + player.event.picture + "')";
   },
@@ -138,15 +136,6 @@ const front = {
       this.enemyHPElement.textContent = "";
     }
 
-    // if (player.event.stats && player.event.stats.round >= 0) {
-    //   this.enemyRoundElement.classList.remove('hide');
-    //   this.enemyRoundElement.textContent = ' 🇷 ' + player.event.stats.round;
-    // }
-    // else {
-    //   this.enemyRoundElement.classList.add('hide');
-    //   this.enemyRoundElement.textContent = "";
-    // }
-
     if (player.event.style) {
       this.enemyTipStyle.textContent = player.event.style;
       this.enemyIcoStyle.classList.remove('hide')
@@ -181,15 +170,18 @@ const front = {
     setTimeout(() => {
       this.stepBoardDiv.appendChild(this.nextStepButton);
     }, "4000");
+  },
+  showDecks:function(){
+    this.discardPile.style.display = 'inline-block'
+    this.deck.style.display = 'inline-block'
+  },
+  hideDecks:function(){
+    this.discardPile.style.display = 'none'
+    this.deck.style.display = 'none'
   }
 }
 
   
-
-  // const discardPileDiv = document.getElementById("discardPile");
-  
-  // const deckCountSpan = document.getElementById("deckCount");
-  // const discardCountSpan = document.getElementById("discardCount");
 
   const gameMessagesDiv = document.getElementById("game-messages");
 

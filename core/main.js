@@ -63,21 +63,13 @@ const game = {
 
   enemyTurn:function() {
     if (player.event.stats.hp.cur <= 0) return;
-
-
-
-    console.log('round:',player.event.stats.round)
-    console.log('cycle:',player.event.attack.cycle[player.event.stats.round])
-
     if (player.event.attack.cycle[player.event.stats.round] == 1) {
-      let min = player.event.dps[0]
-      let max = player.event.dps[1]
+      let min = player.event.attack.dps[0]
+      let max = player.event.attack.dps[1]
       const damage = Math.floor(Math.random() * (max - min + 1)) + min;
       player.values.hp -= damage;
       addMessage(`L'ennemi vous attaque et vous inflige ${damage} dégâts!`);
-
-    }
-    
+    }    
     player.event.stats.round += 1
     if(player.event.stats.round >= player.event.attack.cycle.length){
       player.event.stats.round = 0
@@ -89,8 +81,7 @@ const game = {
       front.refreshEnemyStats();
       player.refreshPlayerStats();
     }
-  },
-  
+  },  
   playerAttack: function(){
     if (cartes.selectedCards.length === 0) return;
     player.values.plis += 1;
@@ -102,32 +93,36 @@ const game = {
     addMessage(`Vous attaquez l'ennemi et lui infligez ${check.points} dégâts!`);
 
     cartes.discardCards();
-    if (player.event.stats && player.event.stats.hp <= 0) {
+    if (player.event.stats && player.event.stats.hp.cur <= 0) {
       addMessage(`Vous avez vaincu ${player.event.prefixed}!`);
       // rewards
       // todo
+      
+      if(player.event.reward){
+        let message = player.setRewardBonus(player.event.reward)
+        addMessage(message ?? 'vide');
+        cartes.hideDeck()
+      }
+      
+      front.displayNextStepButton()
 
-      nextStep();
+
     } else {
       this.enemyTurn();
     }
   },
-
-}
-
-
-
-  function startEncounter(step) {
-    let action = Object.keys(step)[0]
-    let event = step[action]
-    front.displayStepInfo(event)
-    front.setStepBackgroundImage(event)
+  startEncounter:function() {
+    front.displayStepInfo()
+    front.setStepBackgroundImage()
     
-    addMessage('Vous rencontrez : '+event.name+'.');
+    addMessage('Vous rencontrez : '+player.event.name+'.');
 
-    front.stepBoardDiv.appendChild(front.nextButton);
+    // front.stepBoardDiv.appendChild(front.nextButton);
+    front.displayNextStepButton()
+    player.refreshPlayerStats();
 
   }
+}
 
   function gameOver(win = false) {
     if (win) {

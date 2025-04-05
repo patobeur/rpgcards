@@ -21,6 +21,7 @@ const cartes = {
   // ---------------------------
   createDeck:function(){
     this.deck = [];
+    this.discardPile = []
     for (let suit of this.suits) {
       for (let value of this.values) {
         let card = { 
@@ -40,6 +41,13 @@ const cartes = {
       [this.deck[i], this.deck[j]] = [this.deck[j], this.deck[i]];
     }
   },
+  hideDeck:function(){
+    this.playerCards = [];
+    this.createDeck();
+    this.displayCards();
+    this.updateDeckCount();
+    front.hideDecks()
+  },
   dealCards:function(){
     this.createDeck();
     this.playerCards = [];
@@ -48,10 +56,12 @@ const cartes = {
     }
     this.displayCards();
     this.updateDeckCount();
+    front.showDecks()
   },
   displayCards:function(){
-    let target = front.playerCardsDiv;
-    target.innerHTML = "";
+    
+    front.hand.textContent = ''
+    front.playerCardsDiv.innerHTML = "";
 
     for (let card of this.playerCards) {
       const cardDiv = document.createElement("div");
@@ -71,7 +81,7 @@ const cartes = {
       cardDiv.appendChild(emojiDiv);
 
       cardDiv.addEventListener("click", (event)=>this.toggleCardSelection(event));
-      target.appendChild(cardDiv);
+      front.playerCardsDiv.appendChild(cardDiv);
     }
   },
   toggleCardSelection:function(event){
@@ -81,10 +91,6 @@ const cartes = {
     const cardDiv = (list.includes("value") || list.includes("category"))
       ? event.target.parentElement 
       : event.target;
-
-    // console.log(event.target)
-    // console.log(list)
-    // console.log('k',this.selectedCards)
 
     if(this.selectedCards){
 
@@ -96,23 +102,21 @@ const cartes = {
           this.selectedCards.push(cardDiv);
           cardDiv.classList.add("selected");
         }
-      }
-    
-          // console.log('selectedCards',this.selectedCards)
-          let hand = this.checkCombinations(this.selectedCards).hand
-          front.hand.textContent = ''
-          if (hand!='') {
-            console.log('hand',this.selectedCards,hand)
-            front.hand.textContent=hand
-          }
+      }   
       if (this.selectedCards.length > 0) {
-        // if (this.selectedCards.length > 2) {
-        // }
         front.deckActions.style.display = "block";
       } else {
         front.deckActions.style.display = "none";
       }
-      
+       
+      // console.log('selectedCards',this.selectedCards)
+      let hand = this.checkCombinations(this.selectedCards).hand
+      let points = this.checkCombinations(this.selectedCards).points
+      front.hand.textContent = ''
+      if (hand!='') {
+        console.log('hand',this.selectedCards,hand)
+        front.hand.textContent = hand + ' (' + points + 'pts)'
+      }
     }
 
   },
@@ -122,8 +126,11 @@ const cartes = {
   
     const newCards = [];
     for (let i = 0; i < this.selectedCards.length; i++) {
-      this.discardPile.push(this.playerCards[this.playerCards.indexOf(this.selectedCards[i])]);
+      // une par une, on met les cartes de la main défaussée dans la pile défausse
+      let carte = this.playerCards[this.playerCards.indexOf(this.selectedCards[i])]
+      this.discardPile.push(carte);
       newCards.push(this.deck.pop());
+      carte = undefined;
     }
   
     // Remplace les cartes selectionnées par de nouvelles
@@ -138,7 +145,6 @@ const cartes = {
     this.selectedCards = [];
     front.deckActions.style.display = "none";
     this.displayCards();
-
     this.updateDeckCount();
   },
   updateDeckCount:function(){
