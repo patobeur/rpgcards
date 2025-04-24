@@ -249,7 +249,7 @@
     position: relative;
     border-radius: 4px;
     /* background-color: beige; */
-    background-image: url('../cartes/cartes/cover.jpg');
+    background-image: url('../playcards/cover.jpg');
     background-size: cover;
     background-position: center;
     color:white;
