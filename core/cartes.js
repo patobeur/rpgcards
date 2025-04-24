@@ -67,7 +67,7 @@ const cartes = {
     for (let card of this.playerCards) {
       // const cardDiv = document.createElement("div");
       // cardDiv.classList.add("card");
-      let filecarte = 'cartes/cartes/'+this.valueMap[card.value]+this.elements[card.suit]+'.jpg'
+      let filecarte = 'playcards/'+this.valueMap[card.value]+this.elements[card.suit]+'.jpg'
       let alt = this.valueMap[card.value] + '' + this.elements[card.suit]
       
       const cardDiv = front.createDiv({
