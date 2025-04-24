@@ -1,5 +1,6 @@
 "use strict";
 const cartes = {
+  elements:["roche","feu","air","eau"],
   emoji: ["♥", "♦", "♣", "♠"],
   suits: [0, 1, 2, 3],
   values: ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"],
@@ -64,18 +65,30 @@ const cartes = {
     front.playerCardsDiv.innerHTML = "";
 
     for (let card of this.playerCards) {
-      const cardDiv = document.createElement("div");
-      cardDiv.classList.add("card");
-      // cardDiv.textContent = card.value + card.suit;
+      // const cardDiv = document.createElement("div");
+      // cardDiv.classList.add("card");
+      let filecarte = 'cartes/cartes/'+this.valueMap[card.value]+this.elements[card.suit]+'.jpg'
+      let alt = this.valueMap[card.value] + '' + this.elements[card.suit]
       
+      const cardDiv = front.createDiv({
+        tag:"div",
+        attributes:{className:'card',title:alt},
+        style:{backgroundImage:"url("+filecarte+")"},
+      })
+      
+      // style:{backgroundImage:`url('${this.folder}${catFolder}${data.picture}'),url('cartes/other/vierge.png')`}
+
+      // cardDiv.textContent = card.value + card.suit;
       const emojiDiv = document.createElement("div");
       emojiDiv.classList.add("category");
       emojiDiv.textContent = card.emoji;
       emojiDiv.classList.add(card.color ? "red" : "black");
+      emojiDiv.style.display = "none"
 
       const valueDiv = document.createElement("div");
       valueDiv.classList.add("value");
       valueDiv.textContent = card.value
+      valueDiv.style.display = "none"
 
       cardDiv.appendChild(valueDiv);
       cardDiv.appendChild(emojiDiv);
@@ -156,11 +169,13 @@ const cartes = {
   },
   // ---------------------------
   checkCombinations:function(selectedCards){
+    console.log('selectedCards')
+    console.log(selectedCards)
     const cardValues = selectedCards.map(card => cartes.valueMap[card.textContent.slice(0, -1)]);
     const cardSuits = selectedCards.map(card => card.textContent.slice(-1));
-    // console.log('checkCombinations')
-    // console.log('selectedCards Values:',cardValues)
-    // console.log('selectedCards Suits:',cardSuits)
+    console.log('checkCombinations')
+    console.log('selectedCards Values:',cardValues)
+    console.log('selectedCards Suits:',cardSuits)
     let points = 0;
     let hand = "";
   
@@ -171,6 +186,7 @@ const cartes = {
       cardValues.forEach(value => {
         valueCounts[value] = (valueCounts[value] || 0) + 1;
       });
+
       
       const hasPair = Object.values(valueCounts).some(count => count === 2);
       

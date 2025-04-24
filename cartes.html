@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Cartes du Labyrinthe</title>
+
+  
+  <link rel="stylesheet" href="assets/cartes.css">
+  <script src="core/allcards.js"></script>
+  <script src="core/front.js"></script>
+</head>
+<body>
+
+  <h1>Cartes du Labyrinthe</h1>
+
+  <script>
+    const deck = {
+      folder:"cartes/",
+      cards:[],
+      setHeader: function(data,type,card){
+          const cardheader = front.createDiv({
+              attributes: {className:'card-header'}
+          })
+          // const cardtype = front.createDiv({
+          //     attributes: {className:'type'}
+          // })
+          const cardName = front.createDiv({
+              attributes: {className:'card-name',textContent:`${data.name}`},
+              append:cardheader
+          })
+          card.appendChild(cardheader)
+      },
+      setFooter: function(data,type,card){
+          const cardFooter = front.createDiv({
+              attributes: {className:'card-footer'}
+          })
+          const cardDespription = front.createDiv({
+              tag:'p',
+              attributes: {className:'card-description',textContent:`${data.description}`},
+              append:cardFooter
+          })
+          const cardAccroche = front.createDiv({
+              tag:'p',
+              attributes: {className:'card-accroche',textContent:`${data.accroche}`},
+              append:cardFooter
+          })
+          if (type=='fight'){
+            const cardCoeur = front.createDiv({
+                attributes: {className:'card-coeur'},
+                append:cardFooter
+            })
+            const cardStats = front.createDiv({
+                attributes: {className:'card-stats'},
+                append:cardFooter
+            })
+            const statsHp = front.createDiv({
+                attributes: {className:'card-stats-hp',textContent:`❤️${data.stats.hp.cur}/${data.stats.hp.max}`},
+                append:cardStats
+            })
+            const statsOr = front.createDiv({
+                attributes: {className:'card-stats-or',textContent:`🪙${data.reward.or[0]}-${data.reward.or[1]}`},
+                append:cardStats
+            })
+            //⏱️🪙⌛
+            let cycle = data.attack.cycle.filter(val => val === 1).length
+            let length = data.attack.cycle.length
+            const statsRound = front.createDiv({
+                attributes: {className:'card-stats-round',textContent:`⌛${cycle}/${length} `},
+                append:cardStats
+            })
+            const statsDps = front.createDiv({
+                attributes: {className:'card-stats-dps',textContent:`🗡️${data.attack.dps[0]}-${data.attack.dps[1]} `},
+                append:cardStats
+            })
+          }
+          card.appendChild(cardFooter)
+      },
+      setFooterEncounter: function(data,type,card){
+          const cardFooter = front.createDiv({
+              attributes: {className:'card-footer'}
+          })
+          const cardDespription = front.createDiv({
+              tag:'p',
+              attributes: {className:'card-description',textContent:`${data.description}`},
+              append:cardFooter
+          })
+          const cardAccroche = front.createDiv({
+              tag:'p',
+              attributes: {className:'card-accroche',textContent:`${data.accroche}`},
+              append:cardFooter
+          })
+          card.appendChild(cardFooter)
+      },
+      displayCartes: function(){
+        const catFolder = 'cartes/';
+        let familys = ['feu','eau','air','roche']
+        let values = [11,12,13,14,2,3,4,5,6,7,8,9,10]
+
+        const cards = front.createDiv({
+          attributes: {className:'cards'}
+        })  
+        for (let familysNum = 0; familysNum < familys.length; familysNum++) {
+          for (let valuesNum = 0; valuesNum < values.length; valuesNum++) {
+            
+            const num = values[valuesNum];
+            const family = familys[familysNum];
+
+              const card = front.createDiv({
+                attributes: {className:'card carte'},
+                style:{backgroundImage:`url('${this.folder}${catFolder}${num}${family}.jpg')`}
+              })
+              const cardCarte = front.createDiv({
+                  attributes: {className:'card-carte'},
+                  append:card
+              })
+              let carteValue = (num==14?'A':(num==13?'R':(num==12?'D':(num==11?'V':num))))
+              const cardCarteNum = front.createDiv({
+                  attributes: {className:'card-carte-num',textContent:`${carteValue}`},
+                  append:cardCarte
+              })
+              const cardCarteNumRev = front.createDiv({
+                  attributes: {className:'card-carte-num-rev',textContent:`${carteValue}`},
+                  append:cardCarte
+              })
+
+              cards.appendChild(card)
+          }
+          this.container.appendChild(cards)
+        }
+
+      },
+      addCardEvent: function(card){
+        card.addEventListener('click',function(){
+          const modal = front.createDiv({
+            attributes: {className:'modal'},
+            append:document.body
+          })
+          const copy = card.cloneNode(true);
+          modal.appendChild(copy)
+          modal.addEventListener('click',function(){
+            modal.remove()
+          })
+        })
+      },
+      displayRpgCards: function(LIST){
+        
+        const cards = front.createDiv({
+          attributes: {className:'cards'}
+        })  
+        LIST.forEach(obj => {
+            const type = Object.keys(obj)[0];
+            const data = obj[type];
+            const catFolder = type+'/';
+            
+            const card = front.createDiv({
+              attributes: {className:'card '+ type},
+              style:{backgroundImage:`url('${this.folder}${catFolder}${data.picture}'),url('cartes/other/vierge.png')`}
+            })
+            this.addCardEvent(card)
+            
+            if(type=="fight"){
+              this.setHeader(data,type,card)
+              this.setFooter(data,type,card)
+            }
+            if(type=="item"){
+              this.setHeader(data,type,card)
+              this.setFooter(data,type,card)
+            }
+            else if (type=="rest"){
+              this.setHeader(data,type,card)
+              this.setFooter(data,type,card)
+            }
+            else if (type=="encounter"){
+              this.setHeader(data,type,card)
+              this.setFooterEncounter(data,type,card)
+            }
+            else if (type=="other"){
+              this.setHeader(data,type,card)
+              this.setFooter(data,type,card)
+            }
+            cards.appendChild(card)
+          })
+          this.container.appendChild(cards)
+        },
+      init: function(){
+          this.container = front.createDiv({
+            attributes: {className:'card-container'},
+            style:{},
+            append:document.body
+          })
+          this.displayRpgCards(fight)
+          this.displayRpgCards(encounter)
+          this.displayRpgCards(rest)
+          this.displayRpgCards(other)
+          this.displayRpgCards(item)
+          this.displayCartes()
+      },
+    }
+    deck.init()
+  </script>
+
+</body>
+</html>

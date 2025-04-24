@@ -119,3 +119,20 @@ Ce fichier contient un **objet `currentEnemy`**, responsable de la gestion de l�
 -  **Stratégie** basée sur la combinaison carte/style/faiblesse.
 -  Interface évolutive, feedback en direct, système de messages.
 -  un inventaire.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

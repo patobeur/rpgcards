@@ -1,5 +1,5 @@
-@font-face {font-family:SoosLight;src:url('/assets/font/Doctor Soos Light 1.1.ttf');}
-@font-face {font-family:SoosBold;src:url('/assets/font/Doctor Soos Bold 2.1.ttf');}
+@font-face {font-family:SoosLight;src:url('font/Doctor Soos Light 1.1.ttf');}
+@font-face {font-family:SoosBold;src:url('font/Doctor Soos Bold 2.1.ttf');}
 :root {
   --font1: SoosLight;
   --fontName: SoosBold;
@@ -26,7 +26,7 @@
       /* width: 75px; */
       width: calc( (100vw / 7) - 6px );
       /* min-width: 32px; */
-      aspect-ratio: 1/1.6;
+      aspect-ratio: 1/1.35;
       border: 1px solid rgb(0, 0, 0);
       /* display: inline-block; */
       display: flex;
@@ -39,6 +39,7 @@
       position: relative;
       border-radius: 5px;
       background-color: beige;
+      background-size: contain;
       &.selected {
         border: 2px solid rgb(38, 172, 11);
         box-shadow: 5px 10px 5px rgba(0, 0, 0, 0.24);
@@ -248,7 +249,7 @@
     position: relative;
     border-radius: 4px;
     /* background-color: beige; */
-    background-image: url('/assets/backdeck.png');
+    background-image: url('../cartes/cartes/cover.jpg');
     background-size: cover;
     background-position: center;
     color:white;
@@ -260,7 +261,7 @@
       display: flex;
       justify-content: center;
       .card {
-        width: 75px;
+        width: 120px;
         border-radius: 4px;
         &.selected {
           border: 2px solid rgb(38, 172, 11);

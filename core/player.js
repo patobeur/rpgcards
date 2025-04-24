@@ -8,7 +8,7 @@ const player = {
   reset:function(){
     this.stepNum = 0
     this.values = {
-      handSize: 9,
+      handSize: 7,
       score: 0,
       hp: 80,
       hpMax: 100,

@@ -9,33 +9,39 @@
         picture:'potiondesoins.png',
         description: "Buvez cette potion pour récupérer 20 à 50 hp !",
         effect: [{
-          stats: {hp:[25,50]}
-        }]
+          stats: {hp:[35,50]}
+        }],
+        cost:10 // po
       },
       {
         name: "Épée de Justice",
         picture:'epeedejustice.png',
-        description: "30 à 30 de dégats suplémentaire quand vous attaquez un Diable",
+        description: "Cette épée émane une aura de lumière bleu ciel",
+        effectDescription: "25 à 30pts de dégats suplémentaires quand vous attaquez",
         effect: [{
-          attack: {hp:[25]},
-          stats: {hp:[25,50]}
-        }]
+          attack: {hp:[25,30]},
+          stats: {hp:[5,10]}
+        }],
+        cost:10 // po
       },
       {
         name: "Anneau de protection contre le mal",
         picture:'anneaudeprotectioncontrelemal.png',
-        description: "25pts de protection quand un être maléfique vous fait des dégats",
+        description: "",
+        effectDescription: "25pts de protection quand un être maléfique vous fait des dégats",
         effect: [{
           protection: {hp:[25]}
-        }]
+        }],
+        cost:10 // po
       },
       {
         'name': "Arc de feu",
         'picture':'arcdefeu.png',
-        'description': "25pts de protection quand un être maléfique vous fait des dégats",
+        'description': "cette arc tire des fleches de feu et ajoute 25pts à vos attaques",
         'effect': [{
-          'protection': {'hp':[25]}
-        }]
+          'attack': {'hp':[25]}
+        }],
+        cost:55 // po
       },
       {
         "name": "Cristal de soin rayonnant",
@@ -45,7 +51,8 @@
         "effect": [{
           "stats": { "hp": [50] },
           "status": { "calm": true }
-        }]
+        }],
+        cost:20 // po
       },
       {
         "name": "Binocle de Lucidité",
@@ -53,15 +60,17 @@
         "description": "Permet de voir plus clair dans le jeu. Le joueur peut garder deux carte supplémentaire en main.",
         "effect": [{
           "stats": { "hand": 2 },
-        }]
+        }],
+        cost:50 // po
       },
       {
-        "name": "Binocle de Lucidité",
+        "name": "Monocle de Lucidité",
         "picture": "monocledelucidite.png",
         "description": "Permet de voir plus clair dans le jeu. Le joueur peut garder une carte supplémentaire en main.",
         "effect": [{
           "stats": { "hand": 1 },
-        }]
+        }],
+        cost:25 // po
       },
       {
         "name": "Bouclier de renvoi magique",
@@ -70,22 +79,41 @@
         "effect": [{
           "reflect": { "magic": 0.5 },
           "protection": { "magic": [20] }
-        }]
+        }],
+        cost:35 // po
       }
     ],
     listeDesEvenements: [
+      // {
+      //   "encounter": {
+      //     "prefixName": "",
+      //     "accroche": "Saphira, la Vagabonde des Sortilèges",
+      //     "name": "Saphira la Vagabonde",
+      //     "picture": "saphiralavagabonde.webp",
+      //     "description": "Saphira voyage entre les couloirs du labyrinthe avec ses potions bizarres et ses objets oubliés. On ne sait pas d’où elle vient, mais tout le monde sait qu’elle n’est jamais très loin.",
+      //     "dialogue": [
+      //       "J’ai ramassé ça dans les couloirs tordus du monde d’avant… Vous en voulez ?",
+      //       "Je troque tout, sauf les souvenirs… ceux-là me sont trop chers.",
+      //       "Faites attention en ouvrant cette fiole. Elle rit parfois."
+      //     ],
+      //     "objets": ["Larme d’illusion", "Voile de fumée", "Perle du silence"],
+      //     "ambiance": "Énigmatique et douce, presque irréelle.",
+      //     "effet": "Permet d’acheter 1 objet magique contre une énigme... ou 5 pièces d’or."
+      //   }
+      // },
       // {encounter: {
       //     name: 'Arkan, le Marchand Errant',
       //     picture: 'arkanlemarchand.webp',
-      //     description: "Ancien voleur devenu marchand, Arkan s’est perdu dans le labyrinthe... et y a vu une opportunité. Il vend de tout, et surtout ce que vous n’avez pas demandé.",
+      //     description: "Ancien voleur devenu marchand, Arkan s’est perdu dans le labyrinthe... ",
       //     dialogue: [
       //       "Oh ! Des visages pas encore décomposés. Intéressant.",
       //       "Vous avez l’air fatigués... ça tombe bien, j’ai de quoi tenir debout !",
       //       "J’échange contre or, potions ou un bon fromage... surtout le fromage."
       //     ],
-      //     objets: [0, 1, 2],
+      //     objets: [0, 1, 2,3,4,5,6,7],
       //     ambiance: "Chaleureux & louche à la fois.",
-      //     effet: "Permet d’acheter 1 objet aléatoire pour 3 pièces d’or."
+      //     effet: "Permet d’acheter 1 objet aléatoire pour 3 pièces d’or.",
+      //     accroche: 'et y a vu une opportunité. Il vend de tout, et surtout ce que vous n’avez pas demandé.',
       //   }
       // },
       {rest: {
@@ -325,6 +353,32 @@
           round: 4,
           dps: [6, 10],
           gold: 10
+        }
+      },
+      {
+        "fight": {
+          "reward": {
+            "score": [70, 70],
+            "or": [8, 15]
+          },
+          "stats": {
+            "hp": {
+              "cur": 12,
+              "max": 30
+            }
+          },
+          "attack": {
+            "cycle": [2, 3],
+            "dps": [5, 8]
+          },
+          "prefixName": "Le",
+          "accroche": "Vous pensiez ouvrir un coffre... mais c’est un piège gluant à grandes dents !",
+          "name": "Mimic",
+          "picture": "mimic.webp",
+          "description": "Créature polymorphe des profondeurs, le Mimic imite à la perfection les coffres pour attirer les imprudents. Une fois refermé, il digère lentement ses proies.",
+          "style": "Ses attaques sont collantes, puissantes, et souvent accompagnées d’un effet de glue paralysante.",
+          "faiblesse": "Très lent lorsqu’il se déplace et vulnérable aux attaques à distance.",
+          "aura": "Silencieux & carnassier."
         }
       },
       {win: {
