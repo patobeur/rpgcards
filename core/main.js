@@ -2,21 +2,22 @@
 const game = {
   start:function() {
     player.reset();
+    enemys.reset();
     front.init()
     this.checkStep();
     this.addListener()
   },
   addListener:function() {
-    // listener bouton: suite, defausser et jouer 
+    // listener bouton: suite, defausser et jouer
     front.nextStepButton.addEventListener("click",()=>{front.nextStepButton.remove();this.nextStep();});
     front.discardButton.addEventListener("click",()=>{cartes.discardCards()});
     front.attackButton.addEventListener("click",()=>{this.playerAttack()});
   },
-  
+
   nextStep:function() {
     player.nextStep()
-  
-    if (player.values.stepNum >= aventure.listeDesEvenements.length-1) {
+
+    if (player.stepNum >= aventure.listeDesEvenements.length) {
       this.gameOver(true);
       return;
     }
@@ -31,13 +32,14 @@ const game = {
     if(player.eventType=='fight'){this.startFight();}
     if(player.eventType=='rest'){this.startRest();}
     if(player.eventType=='encounter'){this.startEncounter(player.step);}
+    if(player.eventType=='win'){this.gameOver(true);}
   },
 
   startRest:function () {
     console.log('--------startRest---------')
     front.displayStepInfo()
     front.setStepBackgroundImage()
-    
+
     front.deckActions.style.display = "none";
 
     addMessage(player.event.name);
@@ -51,29 +53,19 @@ const game = {
     player.refreshPlayerStats();
   },
   startFight:function() {
-    player.initEventFight()
-    addMessage(player.event.accroche ?? `Vous affrontez ${player.event.prefixed}`);
+    enemys.set(player.event);
+    addMessage(player.event.accroche ?? `Vous affrontez ${enemys.current.prefixed}`);
 
     front.displayStepInfo()
     front.setStepBackgroundImage()
-    
+
     player.refreshPlayerStats();
     cartes.dealCards();
   },
 
   enemyTurn:function() {
-    if (player.event.stats.hp.cur <= 0) return;
-    if (player.event.attack.cycle[player.event.stats.round] == 1) {
-      let min = player.event.attack.dps[0]
-      let max = player.event.attack.dps[1]
-      const damage = Math.floor(Math.random() * (max - min + 1)) + min;
-      player.values.hp -= damage;
-      addMessage(`L'ennemi vous attaque et vous inflige ${damage} dégâts!`);
-    }    
-    player.event.stats.round += 1
-    if(player.event.stats.round >= player.event.attack.cycle.length){
-      player.event.stats.round = 0
-    }
+    enemys.attack();
+
     if (player.values.hp <= 0) {
       addMessage("Vous avez été vaincu ! ");
       gameOver();
@@ -81,27 +73,27 @@ const game = {
       front.refreshEnemyStats();
       player.refreshPlayerStats();
     }
-  },  
+  },
   playerAttack: function(){
     if (cartes.selectedCards.length === 0) return;
     player.values.plis += 1;
-    
+
     const check = cartes.checkCombinations(cartes.selectedCards);
     console.log('--------playerAttack--------')
-    player.setEnemyHpLoss(check)
+    enemys.takeDamage(check.points);
+    front.refreshEnemyStats();
 
     addMessage(`Vous attaquez l'ennemi et lui infligez ${check.points} dégâts avec ${check.hand} !`);
 
     cartes.discardCards();
-    if (player.event.stats && player.event.stats.hp.cur <= 0) {
-      addMessage(`Vous avez vaincu ${player.event.prefixed}!`);
+    if (enemys.current && enemys.current.stats.hp.cur <= 0) {
+      addMessage(`Vous avez vaincu ${enemys.current.prefixed}!`);
       // rewards
       if(player.event.reward){
         let message = player.setRewardBonus(player.event.reward)
         addMessage(message ?? 'vide');
-        cartes.hideDeck()
       }
-      
+      cartes.hideDeck()
       front.displayNextStepButton()
 
 
@@ -112,7 +104,7 @@ const game = {
   startEncounter:function() {
     front.displayStepInfo()
     front.setStepBackgroundImage()
-    
+
     addMessage('Vous rencontrez : '+player.event.name+'.');
 
 
@@ -136,20 +128,12 @@ const game = {
     replayButton.textContent = "Rejouer";
     replayButton.addEventListener("click", () => {
       resetGame();
-      nextStep();
     });
+    front.playerCardsDiv.innerHTML = '';
     front.playerCardsDiv.appendChild(replayButton);
-    buttonsDiv.style.display = "none";
+    front.deckActions.style.display = "none";
   }
   function resetGame() {
-
-    cartes.reset();
-    player.reset();
-    enemys.reset();
-
-    // player.refreshScoreDiv();
-    enemys.updateEnemyHP();
-    player.refreshScoreDiv();
-    gameMessagesDiv.innerHTML = "";
+    game.start();
   }
   game.start();
