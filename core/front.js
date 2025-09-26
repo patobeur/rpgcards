@@ -19,26 +19,26 @@ const front = {
     this.stepDiv = this.createDiv({tag:'div',attributes:{id:'stepdatas'},style:{},prepend:document.body})
     this.playerDiv = this.createDiv({tag:'div',attributes:{id:'playerdatas'},style:{},prepend:document.body})
     this.stepBoardDiv = this.createDiv({tag:'div',attributes:{id:'stepboard'},style:{},prepend:this.stepDiv})
-    
-    
+
+
     this.stepHeaderDiv = this.createDiv({tag:'div',attributes:{className:'step-header'},style:{},prepend:this.stepBoardDiv})
     this.enemyNameElement = this.createDiv({tag:'div',attributes:{id:'enemy-name',className:'enemy-data'},style:{},append:this.stepHeaderDiv})
     this.enemyHPElement = this.createDiv({tag:'div',attributes:{id:'enemy-hp',className:'enemy-data'},style:{},append:this.stepHeaderDiv})
     this.enemyRoundElement = this.createDiv({tag:'div',attributes:{id:'enemy-round',className:'enemy-data'},style:{},append:this.stepHeaderDiv})
-    
+
     // tips
     this.enemyTipDescription = this.createDiv({tag:'div',attributes:{id:'enemy-description',className:'enemy-tip hide'},style:{},append:this.stepBoardDiv})
     this.enemyTipStyle = this.createDiv({tag:'div',attributes:{id:'enemy-style',className:'enemy-tip hide'},style:{},append:this.stepBoardDiv})
     this.enemyTipAura = this.createDiv({tag:'div',attributes:{id:'enemy-aura',className:'enemy-tip hide'},style:{},append:this.stepBoardDiv})
     this.enemyTipFaiblesse = this.createDiv({tag:'div',attributes:{id:'enemy-faiblesse',className:'enemy-tip hide'},style:{},append:this.stepBoardDiv})
-    
+
     // cursors
     this.cursor = this.createDiv({tag:'div',attributes:{id:'cursor'},style:{},append:this.stepBoardDiv})
     this.enemyIcoDescription = this.createDiv({tag:'div',attributes:{id:'ico-description',className:'ico',textContent:'Description'},style:{},append:this.cursor})
     this.enemyIcoStyle = this.createDiv({tag:'div',attributes:{id:'ico-style',className:'ico',textContent:'Style'},style:{},append:this.cursor})
     this.enemyIcoAura = this.createDiv({tag:'div',attributes:{id:'ico-aura',className:'ico',textContent:'Aura'},style:{},append:this.cursor})
     this.enemyIcoFaiblesse = this.createDiv({tag:'div',attributes:{id:'ico-faiblesse',className:'ico',textContent:'Faiblesse'},style:{},append:this.cursor})
-    
+
     this.enemyIcoDescription.addEventListener('mouseover',()=>{this.enemyTipDescription.classList.remove('hide')})
     this.enemyIcoDescription.addEventListener('mouseout',()=>{this.enemyTipDescription.classList.add('hide')})
     this.enemyIcoAura.addEventListener('mouseover',()=>{this.enemyTipAura.classList.remove('hide')})
@@ -55,11 +55,11 @@ const front = {
     })
     // others
   // this.deckCountSpan = this.createDiv({attributes:{id:'deckCount'},append:this.stepBoardDiv})
-    
+
 
     // deck and discarded
-  
-    
+
+
   },
 	createDiv: function (params) {
 		let element = document.createElement(params.tag??'div');
@@ -101,21 +101,15 @@ const front = {
     this.stepBoardDiv.style.backgroundImage = "url('" + aventure.imageFolder + player.event.picture + "')";
   },
   refreshEnemyStats:function() {
-    this.enemyHPElement.textContent = '❤️' + player.event.stats.hp.cur + '/' + player.event.stats.hp.max;
-    console.log('cycle',player.event.attack.cycle)
-    console.log('length',player.event.attack.cycle.length)
-    console.log('round',player.event.stats.round)
-
-    this.enemyRoundElement.textContent = ''
-    // let span = front.createDiv({tag:'span',attributes:{textContent:' 🇷 ',className:'round-item'},append:this.enemyRoundElement})
-    let rCount = 0
-    player.event.attack.cycle.forEach(r => {
-      let className = (rCount == player.event.stats.round) ? ' actual' : '';
-      console.log('r',r,className)
-      let span = front.createDiv({attributes:{textContent:r,className:'round-item'+className},append:this.enemyRoundElement})
-      rCount++
+    if (!enemys.current) return;
+    this.enemyHPElement.textContent = '❤️' + enemys.current.stats.hp.cur + '/' + enemys.current.stats.hp.max;
+    this.enemyRoundElement.textContent = '';
+    let rCount = 0;
+    enemys.current.attack.cycle.forEach(r => {
+      let className = (rCount == enemys.current.stats.round) ? ' actual' : '';
+      front.createDiv({attributes:{textContent:r,className:'round-item'+className},append:this.enemyRoundElement});
+      rCount++;
     });
-    // this.enemyRoundElement.textContent = ' 🇷 ' + player.event.stats.round;
   },
   displayStepInfo:function() {
     this.enemyNameElement.textContent = player.event.name;
@@ -190,13 +184,13 @@ const front = {
         append:this.playerCardsDiv
       })
       this.playerCardsDiv.appendChild(itemCard);
-      
+
     // this.stepBoardDiv.style.backgroundImage = "url('" + aventure.imageFolder + player.event.picture + "')";
     });
   }
 }
 
-  
+
 
   const gameMessagesDiv = document.getElementById("game-messages");
 

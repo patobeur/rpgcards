@@ -87,13 +87,4 @@ const player = {
     this.eventType = Object.keys(this.step)[0]
     this.event = this.step[this.eventType]
   },
-  initEventFight:function() {  
-    console.log('--------init Fight--------')
-    this.event.stats.round = Number(0)
-    this.event.prefixed = (this.event.prefixName ?? '') + this.event.name
-  },
-  setEnemyHpLoss:function(check) {
-    this.event.stats.hp.cur -= check.points
-    front.refreshEnemyStats()
-  },
 }
