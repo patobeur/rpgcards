@@ -14,7 +14,8 @@ const player = {
       hpMax: 100,
       plis: 0,
       round: 0,
-      or: 0
+      or: 0,
+      inventory: []
     }
 
     console.log('reset player')
