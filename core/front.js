@@ -1,43 +1,41 @@
 "use strict";
 const front = {
   init:function(){
-    this.discardPile = this.createDiv({tag:'div',attributes:{id:'discardPile',className:'pile'},style:{display: 'none'},prepend:document.body})
-    this.deck = this.createDiv({tag:'div',attributes:{id:'deck',className:'pile'},style:{display: 'none'},prepend:document.body})
-    this.discardCountSpan = this.createDiv({tag:'span',attributes:{id:'discardCount'},prepend:this.discardPile})
-    this.deckCountSpan = this.createDiv({tag:'span',attributes:{id:'deckCount'},prepend:this.deck})
+    this.discardPile = document.getElementById('discardPile');
+    this.deck = document.getElementById('deck');
+    this.discardCountSpan = document.getElementById('discardCount');
+    this.deckCountSpan = document.getElementById('deckCount');
 
 
-    this.deckActions = this.createDiv({tag:'div',attributes:{id:'buttons',className:''},style:{display: 'none'},prepend:document.body})
-    this.discardButton = this.createDiv({tag:'button',attributes:{id:'discardButton',textContent:'Défausser',className:''},style:{},append:this.deckActions})
-    this.attackButton = this.createDiv({tag:'button',attributes:{id:'attackButton',textContent:'Attaquer',className:''},style:{},append:this.deckActions})
+    this.deckActions = document.getElementById('buttons');
+    this.discardButton = document.getElementById('discardButton');
+    this.attackButton = document.getElementById('attackButton');
 
-    this.hand = this.createDiv({tag:'div',attributes:{id:'hand',textContent:''},style:{},prepend:document.body})
-    this.playerCardsDiv = this.createDiv({tag:'div',attributes:{id:'playerCards'},style:{},prepend:document.body})
+    this.hand = document.getElementById('hand');
+    this.playerCardsDiv = document.getElementById('playerCards');
 
-
-
-    this.stepDiv = this.createDiv({tag:'div',attributes:{id:'stepdatas'},style:{},prepend:document.body})
-    this.playerDiv = this.createDiv({tag:'div',attributes:{id:'playerdatas'},style:{},prepend:document.body})
-    this.stepBoardDiv = this.createDiv({tag:'div',attributes:{id:'stepboard'},style:{},prepend:this.stepDiv})
+    this.stepDiv = document.getElementById('stepdatas');
+    this.playerDiv = document.getElementById('playerdatas');
+    this.stepBoardDiv = document.getElementById('stepboard');
 
 
-    this.stepHeaderDiv = this.createDiv({tag:'div',attributes:{className:'step-header'},style:{},prepend:this.stepBoardDiv})
-    this.enemyNameElement = this.createDiv({tag:'div',attributes:{id:'enemy-name',className:'enemy-data'},style:{},append:this.stepHeaderDiv})
-    this.enemyHPElement = this.createDiv({tag:'div',attributes:{id:'enemy-hp',className:'enemy-data'},style:{},append:this.stepHeaderDiv})
-    this.enemyRoundElement = this.createDiv({tag:'div',attributes:{id:'enemy-round',className:'enemy-data'},style:{},append:this.stepHeaderDiv})
+    this.stepHeaderDiv = document.querySelector('.step-header');
+    this.enemyNameElement = document.getElementById('enemy-name');
+    this.enemyHPElement = document.getElementById('enemy-hp');
+    this.enemyRoundElement = document.getElementById('enemy-round');
 
     // tips
-    this.enemyTipDescription = this.createDiv({tag:'div',attributes:{id:'enemy-description',className:'enemy-tip hide'},style:{},append:this.stepBoardDiv})
-    this.enemyTipStyle = this.createDiv({tag:'div',attributes:{id:'enemy-style',className:'enemy-tip hide'},style:{},append:this.stepBoardDiv})
-    this.enemyTipAura = this.createDiv({tag:'div',attributes:{id:'enemy-aura',className:'enemy-tip hide'},style:{},append:this.stepBoardDiv})
-    this.enemyTipFaiblesse = this.createDiv({tag:'div',attributes:{id:'enemy-faiblesse',className:'enemy-tip hide'},style:{},append:this.stepBoardDiv})
+    this.enemyTipDescription = document.getElementById('enemy-description');
+    this.enemyTipStyle = document.getElementById('enemy-style');
+    this.enemyTipAura = document.getElementById('enemy-aura');
+    this.enemyTipFaiblesse = document.getElementById('enemy-faiblesse');
 
     // cursors
-    this.cursor = this.createDiv({tag:'div',attributes:{id:'cursor'},style:{},append:this.stepBoardDiv})
-    this.enemyIcoDescription = this.createDiv({tag:'div',attributes:{id:'ico-description',className:'ico',textContent:'Description'},style:{},append:this.cursor})
-    this.enemyIcoStyle = this.createDiv({tag:'div',attributes:{id:'ico-style',className:'ico',textContent:'Style'},style:{},append:this.cursor})
-    this.enemyIcoAura = this.createDiv({tag:'div',attributes:{id:'ico-aura',className:'ico',textContent:'Aura'},style:{},append:this.cursor})
-    this.enemyIcoFaiblesse = this.createDiv({tag:'div',attributes:{id:'ico-faiblesse',className:'ico',textContent:'Faiblesse'},style:{},append:this.cursor})
+    this.cursor = document.getElementById('cursor');
+    this.enemyIcoDescription = document.getElementById('ico-description');
+    this.enemyIcoStyle = document.getElementById('ico-style');
+    this.enemyIcoAura = document.getElementById('ico-aura');
+    this.enemyIcoFaiblesse = document.getElementById('ico-faiblesse');
 
     this.enemyIcoDescription.addEventListener('mouseover',()=>{this.enemyTipDescription.classList.remove('hide')})
     this.enemyIcoDescription.addEventListener('mouseout',()=>{this.enemyTipDescription.classList.add('hide')})
@@ -48,18 +46,8 @@ const front = {
     this.enemyIcoFaiblesse.addEventListener('mouseover',()=>{this.enemyTipFaiblesse.classList.remove('hide')})
     this.enemyIcoFaiblesse.addEventListener('mouseout',()=>{this.enemyTipFaiblesse.classList.add('hide')})
 
-    // deck
     // nextStepButton
-    this.nextStepButton = this.createDiv({
-      attributes:{className:'button nextstep',textContent:'Suivant'}
-    })
-    // others
-  // this.deckCountSpan = this.createDiv({attributes:{id:'deckCount'},append:this.stepBoardDiv})
-
-
-    // deck and discarded
-
-
+    this.nextStepButton = document.getElementById('nextStepButton');
   },
 	createDiv: function (params) {
 		let element = document.createElement(params.tag??'div');
@@ -160,10 +148,8 @@ const front = {
   },
   displayNextStepButton:function(){
     let texte = player.event.continu ?? 'Continuer'
-    this.nextStepButton.textContent = texte
-    setTimeout(() => {
-      this.stepBoardDiv.appendChild(this.nextStepButton);
-    }, "4000");
+    this.nextStepButton.textContent = texte;
+    this.nextStepButton.style.display = 'block';
   },
   showDecks:function(){
     this.discardPile.style.display = 'inline-block'
