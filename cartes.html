@@ -5,7 +5,7 @@
   <title>Cartes du Labyrinthe</title>
 
   
-  <link rel="stylesheet" href="assets/cartes.css">
+  <link rel="stylesheet" href="mods/webp2/theme/css/style.css">
   <script src="core/allcards.js"></script>
   <script src="core/front.js"></script>
 </head>
@@ -15,7 +15,7 @@
 
   <script>
     const deck = {
-      folder:"cartes/",
+      folder:"mods/webp2/theme/images/",
       cards:[],
       setHeader: function(data,type,card){
           const cardheader = front.createDiv({
@@ -91,44 +91,6 @@
           })
           card.appendChild(cardFooter)
       },
-      displayCartes: function(){
-        const catFolder = 'cartes/';
-        let familys = ['feu','eau','air','roche']
-        let values = [11,12,13,14,2,3,4,5,6,7,8,9,10]
-
-        const cards = front.createDiv({
-          attributes: {className:'cards'}
-        })  
-        for (let familysNum = 0; familysNum < familys.length; familysNum++) {
-          for (let valuesNum = 0; valuesNum < values.length; valuesNum++) {
-            
-            const num = values[valuesNum];
-            const family = familys[familysNum];
-
-              const card = front.createDiv({
-                attributes: {className:'card carte'},
-                style:{backgroundImage:`url('${this.folder}${catFolder}${num}${family}.jpg')`}
-              })
-              const cardCarte = front.createDiv({
-                  attributes: {className:'card-carte'},
-                  append:card
-              })
-              let carteValue = (num==14?'A':(num==13?'R':(num==12?'D':(num==11?'V':num))))
-              const cardCarteNum = front.createDiv({
-                  attributes: {className:'card-carte-num',textContent:`${carteValue}`},
-                  append:cardCarte
-              })
-              const cardCarteNumRev = front.createDiv({
-                  attributes: {className:'card-carte-num-rev',textContent:`${carteValue}`},
-                  append:cardCarte
-              })
-
-              cards.appendChild(card)
-          }
-          this.container.appendChild(cards)
-        }
-
-      },
       addCardEvent: function(card){
         card.addEventListener('click',function(){
           const modal = front.createDiv({
@@ -150,11 +112,12 @@
         LIST.forEach(obj => {
             const type = Object.keys(obj)[0];
             const data = obj[type];
-            const catFolder = type+'/';
+            const catFolder = (type === 'item' ? 'items/' : '');
+            const picture = data.picture.replace('.png', '.webp');
             
             const card = front.createDiv({
               attributes: {className:'card '+ type},
-              style:{backgroundImage:`url('${this.folder}${catFolder}${data.picture}'),url('cartes/other/vierge.png')`}
+              style:{backgroundImage:`url('${this.folder}${catFolder}${picture}')`}
             })
             this.addCardEvent(card)
             
@@ -193,7 +156,6 @@
           this.displayRpgCards(rest)
           this.displayRpgCards(other)
           this.displayRpgCards(item)
-          this.displayCartes()
       },
     }
     deck.init()

@@ -1,7 +1,7 @@
   // let imageFolder = "png/";
   const aventure = {
-    imageFolder: "mods/webp2/",
-    imageItemsFolder: "mods/webp2/items/",
+    imageFolder: "mods/webp2/theme/images/",
+    imageItemsFolder: "mods/webp2/theme/images/items/",
     imageExt: ".webp",
     listeDesObjets: [
       {

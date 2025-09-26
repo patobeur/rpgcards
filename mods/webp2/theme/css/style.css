@@ -1,8 +1,8 @@
 /* 
 @font-face {font-family:ComicHelvetic;src:url('font/ComicHelvetic_Heavy.otf');} */
 /* @font-face {font-family:SoosBold;src:url('font/Doctor Soos Bold 2.1.ttf');} */
-@font-face {font-family:CaslonAntique-Bold;src:url('/font/caslon-antique/CaslonAntique-Bold.ttf');}
-@font-face {font-family:CaslonAntique;src:url('/font/caslon-antique/CaslonAntique.ttf');}
+@font-face {font-family:CaslonAntique-Bold;src:url('../../../assets/font/caslon-antique/CaslonAntique-Bold.ttf');}
+@font-face {font-family:CaslonAntique;src:url('../../../assets/font/caslon-antique/CaslonAntique.ttf');}
 
 :root {
   --fontName: CaslonAntique-Bold;
@@ -22,7 +22,7 @@ body {
   color: #fff;
   font-family: var(--fontBody);
   padding: 20px;
-  background-image: url('fond.png');
+  background-image: url('../../../assets/fond.png');
   /* background-image: url('../cartes/other/decknuit.png'); */
   background-size: 100%;
   /* background-repeat: no-repeat; */
