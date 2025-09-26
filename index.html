@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RPG-CARDS</title>
   <link rel="stylesheet" href="assets/main.css">
+  <link rel="stylesheet" href="core/modal.css">
 </head>
 
 <body>
@@ -58,6 +59,18 @@
   <script src="core/encounter.js"></script>
   <script src="core/main.js"></script>
   <div><a target="_blank" href="https://github.com/patobeur/rpgcards">github</a></div>
+
+  <div id="cardModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h2 id="modalCardName"></h2>
+      <img id="modalCardImage" src="" alt="">
+      <p id="modalCardDescription"></p>
+      <p id="modalCardEffect"></p>
+      <p>Coût: <span id="modalCardCost"></span> Or</p>
+      <button id="buyCardButton">Acheter</button>
+    </div>
+  </div>
 
 </body>
 

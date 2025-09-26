@@ -36,10 +36,8 @@ const game = {
     if(player.eventType=='rest'){rest.start();}
     if(player.eventType=='encounter'){encounter.start();}
     if(player.eventType=='win'){this.gameOver(true);}
-  }
-}
-
-  function gameOver(win = false) {
+  },
+  gameOver:function(win = false) {
     if (win) {
       addMessage(`Félicitations! Vous avez terminé l'aventure avec ${player.values.plis} coups et un score de ${player.values.score}!`);
     } else {
@@ -48,13 +46,17 @@ const game = {
     const replayButton = document.createElement("button");
     replayButton.textContent = "Rejouer";
     replayButton.addEventListener("click", () => {
-      resetGame();
+      this.resetGame();
     });
     front.playerCardsDiv.innerHTML = '';
     front.playerCardsDiv.appendChild(replayButton);
     front.deckActions.style.display = "none";
+  },
+  resetGame:function() {
+    this.start();
   }
-  function resetGame() {
-    game.start();
-  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
   game.start();
+});

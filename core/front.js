@@ -48,6 +48,9 @@ const front = {
 
     // nextStepButton
     this.nextStepButton = document.getElementById('nextStepButton');
+
+    // Initialize modal
+    this.modal.init();
   },
 	createDiv: function (params) {
 		let element = document.createElement(params.tag??'div');
@@ -160,19 +163,87 @@ const front = {
     this.deck.style.display = 'none'
   },
   displayMarket:function(){
-    console.log('----------displayMarket------------')
-    console.log(player.event.objets)
-    player.event.objets.forEach(element => {
-      console.log(aventure.listeDesObjets[element])
-      let itemCard = this.createDiv({
-        attributes:{className:'item-card'},
-        style:{backgroundImage:"url('" + aventure.imageItemsFolder + aventure.listeDesObjets[element].picture + "')"},
-        append:this.playerCardsDiv
-      })
-      this.playerCardsDiv.appendChild(itemCard);
+    this.playerCardsDiv.innerHTML = '';
+    if (player.event.objets) {
+      player.event.objets.forEach(itemIndex => {
+        const item = aventure.listeDesObjets[itemIndex];
+        if (!item) return;
 
-    // this.stepBoardDiv.style.backgroundImage = "url('" + aventure.imageFolder + player.event.picture + "')";
-    });
+        let itemCard = this.createDiv({
+          attributes:{className:'item-card'},
+          style:{backgroundImage:"url('" + aventure.imageItemsFolder + item.picture + "')"},
+          append:this.playerCardsDiv
+        });
+
+        itemCard.addEventListener('click', () => {
+          front.modal.open(item);
+        });
+      });
+    }
+  },
+  modal: {
+    init() {
+      this.modalElement = document.getElementById('cardModal');
+      this.closeButton = document.querySelector('.close-button');
+      this.modalCardName = document.getElementById('modalCardName');
+      this.modalCardImage = document.getElementById('modalCardImage');
+      this.modalCardDescription = document.getElementById('modalCardDescription');
+      this.modalCardEffect = document.getElementById('modalCardEffect');
+      this.modalCardCost = document.getElementById('modalCardCost');
+      this.buyCardButton = document.getElementById('buyCardButton');
+      this.currentItem = null;
+
+      this.closeButton.addEventListener('click', () => this.close());
+      window.addEventListener('click', (event) => {
+        if (event.target === this.modalElement) {
+          this.close();
+        }
+      });
+
+      this.buyCardButton.addEventListener('click', () => this.buy());
+    },
+
+    open(item) {
+      this.currentItem = item;
+      this.modalCardName.textContent = item.name;
+      this.modalCardImage.src = aventure.imageItemsFolder + item.picture;
+      this.modalCardDescription.textContent = item.description;
+      this.modalCardEffect.textContent = item.effectDescription || '';
+      this.modalCardCost.textContent = item.cost;
+      this.modalElement.style.display = 'block';
+
+      if (player.values.or < item.cost) {
+          this.buyCardButton.disabled = true;
+          this.buyCardButton.textContent = "Pas assez d'or";
+      } else {
+          this.buyCardButton.disabled = false;
+          this.buyCardButton.textContent = "Acheter";
+      }
+    },
+
+    close() {
+      this.modalElement.style.display = 'none';
+      this.currentItem = null;
+    },
+
+    buy() {
+      if (this.currentItem && player.values.or >= this.currentItem.cost) {
+        player.values.or -= this.currentItem.cost;
+        player.values.inventory.push(this.currentItem);
+        addMessage(`Vous avez acheté ${this.currentItem.name} pour ${this.currentItem.cost} or.`);
+        player.refreshPlayerStats();
+
+        const itemIndex = player.event.objets.findIndex(i => aventure.listeDesObjets[i].name === this.currentItem.name);
+        if (itemIndex > -1) {
+            player.event.objets.splice(itemIndex, 1);
+            front.displayMarket();
+        }
+
+        this.close();
+      } else {
+        addMessage("Vous n'avez pas assez d'or pour cet objet.");
+      }
+    }
   }
 }
 
