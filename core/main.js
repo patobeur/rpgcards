@@ -9,7 +9,10 @@ const game = {
   },
   addListener:function() {
     // listener bouton: suite, defausser et jouer
-    front.nextStepButton.addEventListener("click",()=>{front.nextStepButton.remove();this.nextStep();});
+    front.nextStepButton.addEventListener("click",()=>{
+      front.nextStepButton.style.display = 'none';
+      this.nextStep();
+    });
     front.discardButton.addEventListener("click",()=>{cartes.discardCards()});
     front.attackButton.addEventListener("click",()=>{this.playerAttack()});
   },

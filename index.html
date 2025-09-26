@@ -9,19 +9,44 @@
 </head>
 
 <body>
-  <!-- <button id="dealButton">Distribuer</button> -->
+  <div id="game-messages"></div>
 
-<!-- 
+  <div id="stepdatas">
+    <div id="stepboard">
+      <div class="step-header">
+        <div id="enemy-name" class="enemy-data"></div>
+        <div id="enemy-hp" class="enemy-data"></div>
+        <div id="enemy-round" class="enemy-data"></div>
+      </div>
+      <div id="enemy-description" class="enemy-tip hide"></div>
+      <div id="enemy-style" class="enemy-tip hide"></div>
+      <div id="enemy-aura" class="enemy-tip hide"></div>
+      <div id="enemy-faiblesse" class="enemy-tip hide"></div>
+      <div id="cursor">
+        <div id="ico-description" class="ico">Description</div>
+        <div id="ico-style" class="ico">Style</div>
+        <div id="ico-aura" class="ico">Aura</div>
+        <div id="ico-faiblesse" class="ico">Faiblesse</div>
+      </div>
+      <button id="nextStepButton" class="button nextstep" style="display: none;">Suivant</button>
+    </div>
+  </div>
+
+  <div id="playerdatas"></div>
+  <div id="playerCards"></div>
+  <div id="hand"></div>
+
   <div id="buttons" style="display: none;">
     <button id="attackButton">Attaquer</button>
     <button id="discardButton">Défausser</button>
-  </div> -->
-<!-- 
-  <div id="deck">Deck: <span id="deckCount"></span></div>
-  <div id="discardPile">Discard: <span id="discardCount"></span></div> -->
+  </div>
 
-  <div id="game-messages"></div>
-
+  <div id="deck" class="pile" style="display: none;">
+    <span id="deckCount"></span>
+  </div>
+  <div id="discardPile" class="pile" style="display: none;">
+    <span id="discardCount"></span>
+  </div>
 
   <script src="mods/webp2/events.js"></script>
   <script src="core/cartes.js"></script>
