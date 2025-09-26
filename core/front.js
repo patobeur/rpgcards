@@ -229,7 +229,7 @@ const front = {
     buy() {
       if (this.currentItem && player.values.or >= this.currentItem.cost) {
         player.values.or -= this.currentItem.cost;
-        player.inventory.push(this.currentItem);
+        player.values.inventory.push(this.currentItem);
         addMessage(`Vous avez acheté ${this.currentItem.name} pour ${this.currentItem.cost} or.`);
         player.refreshPlayerStats();
 
