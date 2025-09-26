@@ -57,4 +57,7 @@ const game = {
   function resetGame() {
     game.start();
   }
-  game.start();
+
+  document.addEventListener('DOMContentLoaded', () => {
+    game.start();
+  });
